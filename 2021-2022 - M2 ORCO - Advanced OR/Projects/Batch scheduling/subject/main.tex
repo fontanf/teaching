@@ -1,0 +1,134 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Batch scheduling}
+\date{2021--2022}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+The algorithms must be tested on all the given instances with the command: \texttt{./problem.py -i instance.txt -c certificate.txt}
+
+Each solution must be verified with the provided checker: \texttt{./problem.py -a checker -i instance.txt -c certificate.txt}
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section{Dynamic Programming}
+
+We consider the Knapsack problem with width:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ items; for each item $j = 1, \dots, n$
+        \begin{itemize}
+          \item a weight $w_j \in \N^+$
+          \item a width $l_j \in \N^+$
+          \item a profit $p_j \in \N^+$
+        \end{itemize}
+      \item a capacity $C \in \N^+$
+    \end{itemize}
+  \item Problem: select a subset of items such that
+    \begin{itemize}
+      \item the total weight of the selected items does not exceed the knapsack capacity
+    \end{itemize}
+  \item Objective: maximize the total profit of the selected items minus the width of the maximum width among the selected items
+\end{itemize}
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the Knapsack problem with width and conflicts:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ items; for each item $j = 1, \dots, n$
+        \begin{itemize}
+          \item a weight $w_j \in \N^+$
+          \item a width $l_j \in \N^+$
+          \item a profit $p_j \in \N^+$
+        \end{itemize}
+      \item a capacity $C \in \N^+$
+      \item a graph $G$ such that each node corresponds to an item
+    \end{itemize}
+  \item Problem: select a subset of items such that
+    \begin{itemize}
+      \item the total weight of the selected items does not exceed the knapsack capacity
+      \item if there exists an edge between vertex $j_1$ and $j_2$ in $G$, then item $j_1$ and item $j_2$ must not be both selected
+    \end{itemize}
+  \item Objective: maximize the total profit of the selected items minus the width of the maximum width among the selected items
+\end{itemize}
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation Heuristic + Dynamic Programming}
+
+We consider the Single machine batch scheduling problem with Makespan objective:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ jobs; for each job $j = 1, \dots, n$, a processing time $p_j \in \N^+$ and a size $s_j \in \N^+$
+      \item a batch capacity $Q \in \N^+$
+    \end{itemize}
+  \item Problem: partition the jobs into batches and sequence the batches such that:
+    \begin{itemize}
+      \item each job must be in exactly one of the batches
+      \item the processing time of a batch is equal to the longest processing time among all jobs it contains
+      \item the total size of the jobs in a batch does not exceed its capacity
+    \end{itemize}
+  \item Objective: minimize the makespan of the schedule
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation Heuristic + Heuristic Tree Search}
+
+We consider the Single machine batch scheduling problem with conflicts and Makespan objective:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ jobs; for each job $j = 1, \dots, n$, a processing time $p_j \in \N^+$ and a size $s_j \in \N^+$
+      \item a batch capacity $Q \in \N^+$
+      \item a graph $G$ such that each node corresponds to a job
+    \end{itemize}
+  \item Problem: partition the jobs into batches and sequence the batches such that:
+    \begin{itemize}
+      \item each job must be in exactly one of the batches
+      \item the processing time of a batch is equal to the longest processing time among all jobs it contains
+      \item the total size of the jobs in a batch does not exceed its capacity
+      \item if there exists an edge between vertex $j_1$ and vertex $j_2$ in $G$, then job $j_1$ and job $j_2$ must not be in the same batch
+    \end{itemize}
+  \item Objective: minimize the makespan of the schedule
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\end{document}
+

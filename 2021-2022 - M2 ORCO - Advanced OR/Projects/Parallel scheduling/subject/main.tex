@@ -1,0 +1,135 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Unrelated parallel machines scheduling}
+\date{2021--2022}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+The algorithms must be tested on all the given instances with the command: \texttt{./problem.py -i instance.txt -c certificate.txt}
+
+Each solution must be verified with the provided checker: \texttt{./problem.py -a checker -i instance.txt -c certificate.txt}
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section{Dynamic Programming}
+
+We consider the Single machine order acceptance and scheduling problem with objective Total tardiness:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ jobs with ($j = 1, \dots, n$)
+        \begin{itemize}
+          \item processing time $p_j \in \N^+$
+          \item due date $d_j \in \N^+$
+          \item profit $v_j \in \N^+$
+        \end{itemize}
+    \end{itemize}
+  \item Problem: find a sub-sequence of jobs
+  \item Objective: maximize the total profit minus the total tardiness of the scheduled job
+\end{itemize}
+
+For a job $j$ starting at $s$, its tardiness is equal to:
+\begin{displaymath}
+  T_j = \max \left\{ 0, d_j - (s + p_j) \right\}
+\end{displaymath}
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the Single machine order acceptance and scheduling problem with objective Total weighted tardiness:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ jobs with ($j = 1, \dots, n$)
+        \begin{itemize}
+          \item processing time $p_j \in \N^+$
+          \item due date $d_j \in \N^+$
+          \item profit $v_j \in \N^+$
+          \item weight $w_j \in \N^+$
+        \end{itemize}
+    \end{itemize}
+  \item Problem: find a sub-sequence of jobs
+  \item Objective: maximize the total profit minus the total weighted tardiness of the scheduled job
+\end{itemize}
+
+For a job $j$ starting at $s$, its weighted tardiness is equal to $w_j T_j$.
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation Heuristic + Dynamic Programming}
+
+We consider the Unrelated parallel machine scheduling problem with objective Total tardiness:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $m$ machines
+      \item $n$ jobs with ($j = 1, \dots, n$)
+        \begin{itemize}
+          \item processing time $p_j^i \in \N^+$ for each machine $i = 1, \dots, m$
+          \item due date $d_j \in \N^+$
+        \end{itemize}
+    \end{itemize}
+  \item Problem: find a schedule for each machine such that
+    \begin{itemize}
+      \item each job is scheduled exactly once
+    \end{itemize}
+  \item Objective: minimize the total tardiness of the schedule
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation Heuristic + Heuristic Tree Search}
+
+We consider the Unrelated parallel machine scheduling problem with objective Total weighted tardiness:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $m$ machines
+      \item $n$ jobs with ($j = 1, \dots, n$)
+        \begin{itemize}
+          \item processing time $p_j^i \in \N^+$ for each machine $i = 1, \dots, m$
+          \item due date $d_j \in \N^+$
+          \item weight $d_j \in \N^+$
+        \end{itemize}
+    \end{itemize}
+  \item Problem: find a schedule for each machine such that
+    \begin{itemize}
+      \item each job is scheduled exactly once
+    \end{itemize}
+  \item Objective: minimize the total weighted tardiness of the schedule
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\end{document}
+
