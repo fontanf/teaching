@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -27,9 +27,13 @@ For each problem considered, instances and a code skeleton containing an instanc
 
 The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
 
-The algorithms must be tested on all the given instances with the command: \texttt{./problem.py -i instance.txt -c certificate.txt}
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
 
-Each solution must be verified with the provided checker: \texttt{./problem.py -a checker -i instance.txt -c certificate.txt}
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
 
 \bigskip
 
@@ -58,7 +62,7 @@ We consider the Knapsack problem with width:
     \begin{itemize}
       \item the total weight of the selected items does not exceed the knapsack capacity
     \end{itemize}
-  \item Objective: maximize the total profit of the selected items minus the width of the maximum width among the selected items
+  \item Objective: maximize the total profit of the selected items minus the maximum width among the selected items
 \end{itemize}
 
 Propose and implement an algorithm based on Dynamic Programming for this problem.
@@ -83,12 +87,12 @@ We consider the Knapsack problem with width and conflicts:
       \item the total weight of the selected items does not exceed the knapsack capacity
       \item if there exists an edge between vertex $j_1$ and $j_2$ in $G$, then item $j_1$ and item $j_2$ must not be both selected
     \end{itemize}
-  \item Objective: maximize the total profit of the selected items minus the width of the maximum width among the selected items
+  \item Objective: maximize the total profit of the selected items minus the maximum width among the selected items
 \end{itemize}
 
 Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
 
-\section{Column Generation Heuristic + Dynamic Programming}
+\section{Column Generation \\ + Dynamic Programming}
 
 We consider the Single machine batch scheduling problem with Makespan objective:
 \begin{itemize}
@@ -108,7 +112,7 @@ We consider the Single machine batch scheduling problem with Makespan objective:
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 
-\section{Column Generation Heuristic + Heuristic Tree Search}
+\section{Column Generation \\ + Heuristic Tree Search}
 
 We consider the Single machine batch scheduling problem with conflicts and Makespan objective:
 \begin{itemize}
@@ -131,4 +135,3 @@ We consider the Single machine batch scheduling problem with conflicts and Makes
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 
 \end{document}
-

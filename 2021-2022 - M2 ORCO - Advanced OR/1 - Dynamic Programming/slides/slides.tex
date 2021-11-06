@@ -56,11 +56,11 @@
   \frametitle{Me}
 
   \begin{itemize}
-    \item Previous student of ORCO (2015--2016)
+    \item Former student of ORCO (2015--2016)
     \item PhD in Operations Research
     \item Engineer at Artelys: \url{https://www.artelys.com/}
       \begin{itemize}
-        \item Artelys is an independent company specialised in optimization, decision support and modeling
+        \item Artelys is an independent company specialized in optimization, decision support and modeling
         \item Design and implementation of optimization algorithms for industrial clients
         \item Development for the NLP/MINLP solver Artelys Knitro \url{https://www.artelys.com/solvers/knitro/}
       \end{itemize}
@@ -141,7 +141,7 @@
     F(j, c) =
     \left\{
       \begin{array}{ll}
-        \text{True} & \text{if among items $1, \dots, i$, there exists} \\
+        \text{True} & \text{if among items $1, \dots, j$, there exists} \\
         & \text{a subset of items with total weight $c$} \\
         \text{False} & \text{otherwise}
       \end{array}
@@ -281,7 +281,7 @@
 
   \footnotesize
   Same algorithm as before, but now we store the results of the subproblems to avoid solving multiple times the same subproblems:
-  \begin{minipage}[t]{0.70\linewidth}
+  \begin{minipage}[t]{0.75\linewidth}
     \footnotesize
     \begin{algorithmic}
       \Procedure{F}{w, T, j, c}
@@ -301,13 +301,13 @@
       \State\Return$T[j][c]$
       \EndProcedure{}
       \Procedure{subsetsum}{w, C}
-      \State$T \gets$ array of size $n + 1 \times C + 1$ initialized at NULL
+      \State$T \gets$ array of size $(n + 1) \times (C + 1)$ initialized at NULL
       \State\Return$F(w, T, n, C)$
       \EndProcedure{}
     \end{algorithmic}
   \end{minipage}
   \hfill
-  \begin{minipage}[t]{0.25\linewidth}
+  \begin{minipage}[t]{0.24\linewidth}
     \footnotesize
     \begin{itemize}
       \item \pause Time complexity? \pause $O(nC)$
@@ -329,7 +329,7 @@
 
   \begin{algorithmic}
     \Procedure{subsetsum}{w, C}
-    \State$T \gets$ array of size $n \times C$ initialized at NULL
+    \State$T \gets$ array of size $(n + 1) \times (C + 1)$ initialized at NULL
     \State$T[0][0] \gets \text{True}$
     \For {$c = 1, \dots, C$}
     \State$T[0][c] \gets \text{False}$
@@ -470,7 +470,7 @@
           \item $n$ items with weight \alert{$w_j$} and profit \alert{$p_j$}, $j = 1, \dots, n$
           \item a capacity \alert{$C$}
         \end{itemize}
-      \item Problem: find a subset of items such that the total weight of the subset is smaller or equal to $C$.
+      \item Problem: find a subset of items such that the total weight of the subset is less than or equal to $C$.
       \item Objective: maximize the total profit of the selected items.
     \end{itemize}
   \end{block}
@@ -484,7 +484,7 @@
 \begin{frame}
   \frametitle{Recursive function}
 
-  For all $j = 0, \dots, n$, $c = 0, \dots, C$, let us define \alert{$F(j, c)$} the maximum profit of a subset of items $1, \dots, j$ with total weight smaller or equal to $c$.
+  For all $j = 0, \dots, n$, $c = 0, \dots, C$, let us define \alert{$F(j, c)$} the maximum profit of a subset of items $1, \dots, j$ with total weight less than or equal to $c$.
 
   \bigskip
 
@@ -628,7 +628,7 @@
 
   \vfill
 
-  Every observation $j$ has a meridian $m_j^i \in \interval[open right]{r_j}{d_j}$ which is a \alert{mandatory instant} of the observation.
+  Every observation $j$ has a meridian $m_j \in \interval[open right]{r_j}{d_j}$ which is a \alert{mandatory instant} of the observation.
 \end{frame}
 
 \begin{frame}
@@ -676,7 +676,7 @@
   \frametitle{Properties}
 
   \begin{block}{Property 1}
-    There exists an optimal solution in which selected observations are scheduled in non-decreasing order of their mandaory instant.
+    There exists an optimal solution in which selected observations are scheduled in non-decreasing order of their mandatory instant.
   \end{block}
 
   \pause
@@ -713,7 +713,7 @@
 
   \onslide<5>{%
     \begin{block}{Property 2}
-      Let a subset $\cal N' \subset N$ and an observation $j_\text{max}$ such that $d_{j_\text{max}} = \max_{j \in \cal N'} d_j$.
+      Consider a subset $\cal N' \subset N$ and an observation $j_\text{max}$ such that $d_{j_\text{max}} = \max_{j \in \cal N'} d_j$.
       If there exists a feasible solution with selected observations $\cal N'$, then there exists a feasible solution with selected observations $\cal N'$ such that $s_{j_\text{max}} = d_{j_\text{max}} - p_{j_\text{max}}$.
     \end{block}
   }
@@ -838,8 +838,8 @@
         \draw [thick, draw=black, ->] (N112) -- (N1121);
         \draw [thick, draw=black, ->] (N112) -- (N1122);
 
-        \node[draw=black, thick, circle, fill=cyan, label=below:{(3,2,3)}] (N1211) at (1,-3) {};
-        \node[draw=black, thick, circle, fill=cyan, label=below:{(3,4,6)}] (N1212) at (3,-3) {};
+        \node[draw=black, thick, circle, fill=cyan, label=below:{(3,3,2)}] (N1211) at (1,-3) {};
+        \node[draw=black, thick, circle, fill=cyan, label=below:{(3,5,5)}] (N1212) at (3,-3) {};
         \draw [thick, draw=black, ->] (N121) -- (N1211);
         \draw [thick, draw=black, ->] (N121) -- (N1212);
 
@@ -857,8 +857,8 @@
         \draw [thick, draw=black, ->] (N112) -- (N1121);
         \draw [thick, draw=black, ->] (N112) -- (N1122);
 
-        \node[draw=black, thick, circle, label=below:{(3,2,3)}] (N1211) at (1,-3) {};
-        \node[draw=black, thick, circle, label=below:{(3,4,6)}] (N1212) at (3,-3) {};
+        \node[draw=black, thick, circle, label=below:{(3,3,2)}] (N1211) at (1,-3) {};
+        \node[draw=black, thick, circle, label=below:{(3,5,5)}] (N1212) at (3,-3) {};
         \draw [thick, draw=black, ->] (N121) -- (N1211);
         \draw [thick, draw=black, ->] (N121) -- (N1212);
 
@@ -900,7 +900,7 @@
   \frametitle{Dominance rule (Knapsack Problem)}
 
   We express Dynamic Programming as a dominance rule:
-  Let two nodes $n_1 = (j_1, w_1, p_1)$ and $n_2 = (j_2, w_2, p_2)$.
+  Consider two nodes $n_1 = (j_1, w_1, p_1)$ and $n_2 = (j_2, w_2, p_2)$.
   If
   \begin{displaymath}
     j_1 \le j_2 \quad \text{and} \quad w_1 \le w_2 \quad \text{and} \quad p_1 \ge p_2
@@ -1068,7 +1068,7 @@
   \end{algorithmic}
 
   \begin{itemize}
-    \item \pause Time complexity? \pause The complexity depends on the complexity of applying the domination rule!
+    \item \pause Time complexity? \pause The complexity depends on the complexity of applying the dominance rule!
 
   In this case, it is possible to implement it in $O(C)$ and keep the complexity of the whole algorithm to $O(nC)$ as for the iterative implementation. But in some cases, the complexity might increase.
   \end{itemize}
@@ -1085,6 +1085,7 @@
     \item Sometimes, a bit of work is needed in order to exhibit this structure
     \item Multiple possible implementations with their advantages and drawbacks (recursive, iterative, tree search)
     \item \say{Knapsack Problems} (Kellerer, Pferschy et Pisinger, 2004)
+    \item Dynamic Programming through path problems: \url{https://moodle.caseine.org/mod/page/view.php?id=30723}
   \end{itemize}
 
 \end{frame}

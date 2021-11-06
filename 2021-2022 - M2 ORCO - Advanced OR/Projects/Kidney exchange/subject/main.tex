@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -34,9 +34,13 @@ For each problem considered, instances and a code skeleton containing an instanc
 
 The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
 
-The algorithms must be tested on all the given instances with the command: \texttt{./problem.py -i instance.txt -c certificate.txt}
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
 
-Each solution must be verified with the provided checker: \texttt{./problem.py -a checker -i instance.txt -c certificate.txt}
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
 
 \bigskip
 
@@ -61,25 +65,25 @@ We model a kidney exchange program as a directed graph by creating one vertex fo
 
 \section{Dynamic Programming}
 
-We first consider the problem of finding a valid elementary cycle of length at most $K$ and of maximum weight. In this problem, the weight of an arc might by negative.
+We first consider the problem of finding a valid elementary cycle of length at most $K$ and of minimum weight. In this problem, the weight of an arc might by negative.
 
 Propose and implement an algorithm based on Dynamic Programming for this problem.
 
 \section{Heuristic Tree Search}
 
-We consider the problem of finding a valid elementary path of length at most $L$ and of maximum weight. In this problem, the weight of an arc might by negative.
+We consider the problem of finding a valid elementary path of length at most $L$ and of minimum weight. In this problem, the weight of an arc might by negative.
 
 Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
 
-\section{Column Generation + Dynamic Programming}
+\section{Column Generation \texorpdfstring{\\}{}  + Dynamic Programming}
 
-We consider the kidney exchange problem witth only patient-donor pairs and \emph{without} altruistic donors. Therefore, the exchanges can only be elementary cycles, and not elementary paths.
+We consider the kidney exchange problem with only patient-donor pairs and \emph{without} altruistic donors. Therefore, the exchanges can only be elementary cycles, and not elementary paths.
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 
-\section{Column Generation + Heuristic Tree Search}
+\section{Column Generation \texorpdfstring{\\}{} + Heuristic Tree Search}
 
-We consider the kidney exchange problem witth both patient-donor pairs and altruistic donors. Therefore, the exchanges can be elementary cycles or elementary paths.
+We consider the kidney exchange problem with both patient-donor pairs and altruistic donors. Therefore, the exchanges can be elementary cycles or elementary paths.
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 

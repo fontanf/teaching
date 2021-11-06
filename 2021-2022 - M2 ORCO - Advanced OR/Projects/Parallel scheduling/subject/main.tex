@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -27,9 +27,13 @@ For each problem considered, instances and a code skeleton containing an instanc
 
 The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
 
-The algorithms must be tested on all the given instances with the command: \texttt{./problem.py -i instance.txt -c certificate.txt}
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
 
-Each solution must be verified with the provided checker: \texttt{./problem.py -a checker -i instance.txt -c certificate.txt}
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
 
 \bigskip
 
@@ -59,7 +63,7 @@ We consider the Single machine order acceptance and scheduling problem with obje
 
 For a job $j$ starting at $s$, its tardiness is equal to:
 \begin{displaymath}
-  T_j = \max \left\{ 0, d_j - (s + p_j) \right\}
+  T_j = \max \left\{ 0, (s + p_j) - d_j \right\}
 \end{displaymath}
 
 Propose and implement an algorithm based on Dynamic Programming for this problem.
@@ -86,7 +90,7 @@ For a job $j$ starting at $s$, its weighted tardiness is equal to $w_j T_j$.
 
 Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
 
-\section{Column Generation Heuristic + Dynamic Programming}
+\section{Column Generation \\ + Dynamic Programming}
 
 We consider the Unrelated parallel machine scheduling problem with objective Total tardiness:
 \begin{itemize}
@@ -108,7 +112,7 @@ We consider the Unrelated parallel machine scheduling problem with objective Tot
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 
-\section{Column Generation Heuristic + Heuristic Tree Search}
+\section{Column Generation \\ + Heuristic Tree Search}
 
 We consider the Unrelated parallel machine scheduling problem with objective Total weighted tardiness:
 \begin{itemize}
@@ -119,7 +123,7 @@ We consider the Unrelated parallel machine scheduling problem with objective Tot
         \begin{itemize}
           \item processing time $p_j^i \in \N^+$ for each machine $i = 1, \dots, m$
           \item due date $d_j \in \N^+$
-          \item weight $d_j \in \N^+$
+          \item weight $w_j \in \N^+$
         \end{itemize}
     \end{itemize}
   \item Problem: find a schedule for each machine such that
@@ -132,4 +136,3 @@ We consider the Unrelated parallel machine scheduling problem with objective Tot
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
 
 \end{document}
-
