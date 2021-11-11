@@ -4,7 +4,7 @@ import json
 class Job:
     id = -1
     processing_time = 0
-    due_date = 0
+    weight = 0
     profit = 0
 
 
@@ -17,22 +17,22 @@ class Instance:
                 data = json.load(json_file)
                 jobs = zip(
                         data["processing_times"],
-                        data["due_dates"],
+                        data["weights"],
                         data["profits"])
-                for (processing_time, due_date, profit) in jobs:
-                    self.add_job(processing_time, due_date, profit)
+                for (processing_time, weight, profit) in jobs:
+                    self.add_job(processing_time, weight, profit)
 
-    def add_job(self, processing_time, due_date, profit):
+    def add_job(self, processing_time, weight, profit):
         job = Job()
         job.id = len(self.jobs)
         job.processing_time = processing_time
-        job.due_date = due_date
+        job.weight = weight
         job.profit = profit
         self.jobs.append(job)
 
     def write(self, filepath):
         data = {"processing_time": [job.processing_time for job in self.jobs],
-                "due_dates": [job.due_date for job in self.jobs],
+                "weights": [job.weight for job in self.jobs],
                 "profits": [job.profit for job in self.jobs]}
         with open(filepath, 'w') as json_file:
             json.dump(data, json_file)
@@ -44,20 +44,20 @@ class Instance:
             profit = sum(self.jobs[job_id].profit
                          for job_id in data["jobs"])
             # Compute total weighted tardiness.
-            total_tardiness = 0
+            total_weighted_completion_time = 0
             current_time = 0
             for job_id in data["jobs"]:
                 job = self.jobs[job_id]
                 current_time += job.processing_time
-                if current_time > job.due_date:
-                    total_tardiness += (job.due_date - current_time)
+                total_weighted_completion_time += current_time
             # Compute number of duplicates.
             number_of_duplicates = len(data["jobs"]) - len(set(data["jobs"]))
             is_feasible = (
                     (number_of_duplicates == 0))
-            objective_value = profit - total_tardiness
+            objective_value = profit - total_weighted_completion_time
             print(f"Profit: {profit}")
-            print(f"Total tardiness: {total_tardiness}")
+            print(f"Total weighted completion time: "
+                  f"{total_weighted_completion_time}")
             print(f"Number of duplicates: {number_of_duplicates}")
             print(f"Feasible: {is_feasible}")
             print(f"Objective value: {objective_value}")

@@ -46,27 +46,31 @@ The delivrable must contain:
 
 \section{Dynamic Programming}
 
-We consider the Single machine order acceptance and scheduling problem with objective Total tardiness:
+We consider the Single machine order acceptance and scheduling problem with objective Total weighted completion time:
 \begin{itemize}
   \item Input:
     \begin{itemize}
       \item $n$ jobs with ($j = 1, \dots, n$)
         \begin{itemize}
           \item processing time $p_j \in \N^+$
-          \item due date $d_j \in \N^+$
+          \item weight $w_j \in \N^+$
           \item profit $v_j \in \N^+$
         \end{itemize}
     \end{itemize}
   \item Problem: find a sub-sequence of jobs
-  \item Objective: maximize the total profit minus the total tardiness of the scheduled job
+  \item Objective: maximize the total profit minus the total weighted completion time of the scheduled job
 \end{itemize}
 
-For a job $j$ starting at $s$, its tardiness is equal to:
-\begin{displaymath}
-  T_j = \max \left\{ 0, (s + p_j) - d_j \right\}
-\end{displaymath}
-
 Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+For a job $j$ starting at $s$, its completion time is equal to:
+\begin{displaymath}
+  C_j = s_j + p_j
+\end{displaymath}
+and its weighted completion time is equal to:
+\begin{displaymath}
+  w_j C_j = w_j (s_j + p_j)
+\end{displaymath}
 
 \section{Heuristic Tree Search}
 
@@ -86,13 +90,16 @@ We consider the Single machine order acceptance and scheduling problem with obje
   \item Objective: maximize the total profit minus the total weighted tardiness of the scheduled job
 \end{itemize}
 
-For a job $j$ starting at $s$, its weighted tardiness is equal to $w_j T_j$.
+For a job $j$ starting at $s$, its weighted tardiness is equal to:
+\begin{displaymath}
+  w_j T_j = w_j \max \left\{ 0, C_j - d_j \right\}
+\end{displaymath}
 
 Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
 
 \section{Column Generation \\ + Dynamic Programming}
 
-We consider the Unrelated parallel machine scheduling problem with objective Total tardiness:
+We consider the Unrelated parallel machine scheduling problem with objective Total weighted completion time
 \begin{itemize}
   \item Input:
     \begin{itemize}
@@ -100,14 +107,14 @@ We consider the Unrelated parallel machine scheduling problem with objective Tot
       \item $n$ jobs with ($j = 1, \dots, n$)
         \begin{itemize}
           \item processing time $p_j^i \in \N^+$ for each machine $i = 1, \dots, m$
-          \item due date $d_j \in \N^+$
+          \item weight $w_j \in \N^+$
         \end{itemize}
     \end{itemize}
   \item Problem: find a schedule for each machine such that
     \begin{itemize}
       \item each job is scheduled exactly once
     \end{itemize}
-  \item Objective: minimize the total tardiness of the schedule
+  \item Objective: minimize the total weighted completion time of the schedule
 \end{itemize}
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
