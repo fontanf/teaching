@@ -46,8 +46,9 @@ class Instance:
                          for item_id in data["items"])
             weight = sum(self.items[item_id].weight
                          for item_id in data["items"])
-            width = max(self.items[item_id].width
-                        for item_id in data["items"])
+            width = max((self.items[item_id].width
+                         for item_id in data["items"]),
+                        default=0)
             number_of_duplicates = len(data["items"]) - len(set(data["items"]))
             is_feasible = (
                     (number_of_duplicates == 0)
