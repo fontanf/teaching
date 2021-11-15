@@ -43,13 +43,13 @@ class Instance:
             # Compute total profit.
             profit = sum(self.jobs[job_id].profit
                          for job_id in data["jobs"])
-            # Compute total weighted tardiness.
+            # Compute total weighted completion time.
             total_weighted_completion_time = 0
             current_time = 0
             for job_id in data["jobs"]:
                 job = self.jobs[job_id]
                 current_time += job.processing_time
-                total_weighted_completion_time += current_time
+                total_weighted_completion_time += job.weight * current_time
             # Compute number of duplicates.
             number_of_duplicates = len(data["jobs"]) - len(set(data["jobs"]))
             is_feasible = (
