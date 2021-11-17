@@ -111,6 +111,7 @@ class BranchingScheme:
     @total_ordering
     class Node:
 
+        id = None
         father = None
         # TODO START
         # TODO END
@@ -118,10 +119,13 @@ class BranchingScheme:
         next_child_pos = 0
 
         def __lt__(self, other):
+            if self.guide == other.guide:
+                return self.id < other.id
             return self.guide < other.guide
 
     def __init__(self, instance):
         self.instance = instance
+        self.id = 0
 
     def root(self):
         node = self.Node()
@@ -129,6 +133,8 @@ class BranchingScheme:
         # TODO START
         # TODO END
         node.guide = 0
+        node.id = self.id
+        self.id += 1
         return node
 
     def next_child(self, father):
