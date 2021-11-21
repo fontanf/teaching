@@ -1,0 +1,1 @@
+{"maximum_cycle_length": 4, "maximum_path_length": 15, "edge_heads": [0, 2, 4, 1, 0, 3, 2, 3, 2, 4, 3, 2, 1], "edge_tails": [1, 4, 0, 2, 4, 4, 1, 1, 0, 2, 0, 3, 0], "edge_weights": [68, 20, 52, 15, 79, 45, 27, 40, 71, 55, 88, 46, 96]}

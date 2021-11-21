@@ -56,22 +56,29 @@ class Instance:
             json.dump(data, json_file)
 
     def check(self, filepath):
+        print("Checker")
+        print("-------")
         with open(filepath) as json_file:
             data = json.load(json_file)
+            # Compute profit.
             profit = sum(self.items[item_id].profit
                          for item_id in data["items"])
+            # Copute weight.
             weight = sum(self.items[item_id].weight
                          for item_id in data["items"])
+            # Compute width.
             width = max((self.items[item_id].width
                          for item_id in data["items"]),
                         default=0)
+            # Compute number_of_conflicts.
             number_of_conflicts = sum(
-                    1
+                    item_id_1 in self.items[item_id_2].conflicting_items
+                    and item_id_1 < item_id_2
                     for item_id_1 in data["items"]
-                    for item_id_2 in data["items"]
-                    if item_id_1 in self.items[item_id_2].conflicting_items
-                    and item_id_1 < item_id_2)
+                    for item_id_2 in data["items"])
+            # Compute number_of_duplicates.
             number_of_duplicates = len(data["items"]) - len(set(data["items"]))
+
             is_feasible = (
                     (number_of_duplicates == 0)
                     and (number_of_conflicts == 0)
@@ -100,9 +107,9 @@ class BranchingScheme:
         next_child_pos = 0
 
         def __lt__(self, other):
-            if self.guide == other.guide:
-                return self.id < other.id
-            return self.guide < other.guide
+            if self.guide != other.guide:
+                return self.guide < other.guide
+            return self.id < other.id
 
     def __init__(self, instance):
         self.instance = instance
@@ -242,19 +249,28 @@ if __name__ == "__main__":
             instance.write(
                     args.instance + "_" + str(number_of_items) + ".json")
 
-    elif args.algorithm == "iterative_beam_search":
+    elif args.algorithm == "checker":
+        instance = Instance(args.instance)
+        instance.check(args.certificate)
+
+    else:
         instance = Instance(args.instance)
         branching_scheme = BranchingScheme(instance)
-        output = treesearchsolverpy.iterative_beam_search(
-                branching_scheme,
-                time_limit=30)
+        if args.algorithm == "greedy":
+            output = treesearchsolverpy.greedy(
+                    branching_scheme)
+        elif args.algorithm == "best_first_search":
+            output = treesearchsolverpy.best_first_search(
+                    branching_scheme,
+                    time_limit=30)
+        elif args.algorithm == "iterative_beam_search":
+            output = treesearchsolverpy.iterative_beam_search(
+                    branching_scheme,
+                    time_limit=30)
         solution = branching_scheme.to_solution(output["solution_pool"].best)
         if args.certificate is not None:
             data = {"items": solution}
             with open(args.certificate, 'w') as json_file:
                 json.dump(data, json_file)
+            print()
             instance.check(args.certificate)
-
-    elif args.algorithm == "checker":
-        instance = Instance(args.instance)
-        instance.check(args.certificate)

@@ -40,16 +40,23 @@ class Instance:
             json.dump(data, json_file)
 
     def check(self, filepath):
+        print("Checker")
+        print("-------")
         with open(filepath) as json_file:
             data = json.load(json_file)
+            # Compute profit.
             profit = sum(self.items[item_id].profit
                          for item_id in data["items"])
+            # Copute weight.
             weight = sum(self.items[item_id].weight
                          for item_id in data["items"])
+            # Compute width.
             width = max((self.items[item_id].width
                          for item_id in data["items"]),
                         default=0)
+            # Compute number_of_duplicates.
             number_of_duplicates = len(data["items"]) - len(set(data["items"]))
+
             is_feasible = (
                     (number_of_duplicates == 0)
                     and (weight <= self.capacity))
@@ -96,6 +103,7 @@ if __name__ == "__main__":
             data = {"items": solution}
             with open(args.certificate, 'w') as json_file:
                 json.dump(data, json_file)
+            print()
             instance.check(args.certificate)
 
     elif args.algorithm == "checker":

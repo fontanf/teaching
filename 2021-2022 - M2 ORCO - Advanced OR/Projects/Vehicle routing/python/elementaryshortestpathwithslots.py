@@ -5,11 +5,11 @@ from functools import total_ordering
 
 
 class Location:
-    id = -1
-    visit_intervals = 0
-    x = 0
-    y = 0
-    value = 0
+    id = None
+    visit_intervals = None
+    x = None
+    y = None
+    value = None
 
 
 class Instance:
@@ -58,6 +58,8 @@ class Instance:
             json.dump(data, json_file)
 
     def check(self, filepath):
+        print("Checker")
+        print("-------")
         with open(filepath) as json_file:
             data = json.load(json_file)
             locations = data["locations"]
@@ -103,9 +105,9 @@ class BranchingScheme:
         next_child_pos = 0
 
         def __lt__(self, other):
-            if self.guide == other.guide:
-                return self.id < other.id
-            return self.guide < other.guide
+            if self.guide != other.guide:
+                return self.guide < other.guide
+            return self.id < other.id
 
     def __init__(self, instance):
         self.instance = instance
@@ -213,7 +215,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.algorithm == "generator":
+    if args.algorithm == "checker":
+        instance = Instance(args.instance)
+        instance.check(args.certificate)
+
+    elif args.algorithm == "generator":
         import random
         random.seed(0)
         for number_of_locations in range(101):
@@ -232,19 +238,24 @@ if __name__ == "__main__":
             instance.write(
                     args.instance + "_" + str(number_of_locations) + ".json")
 
-    elif args.algorithm == "iterative_beam_search":
+    else:
         instance = Instance(args.instance)
         branching_scheme = BranchingScheme(instance)
-        output = treesearchsolverpy.iterative_beam_search(
-                branching_scheme,
-                time_limit=30)
+        if args.algorithm == "greedy":
+            output = treesearchsolverpy.greedy(
+                    branching_scheme)
+        elif args.algorithm == "best_first_search":
+            output = treesearchsolverpy.best_first_search(
+                    branching_scheme,
+                    time_limit=30)
+        elif args.algorithm == "iterative_beam_search":
+            output = treesearchsolverpy.iterative_beam_search(
+                    branching_scheme,
+                    time_limit=30)
         solution = branching_scheme.to_solution(output["solution_pool"].best)
         if args.certificate is not None:
             data = {"locations": solution}
             with open(args.certificate, 'w') as json_file:
                 json.dump(data, json_file)
+            print()
             instance.check(args.certificate)
-
-    elif args.algorithm == "checker":
-        instance = Instance(args.instance)
-        instance.check(args.certificate)

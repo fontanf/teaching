@@ -56,15 +56,19 @@ class Instance:
             json.dump(data, json_file)
 
     def check(self, filepath):
+        print("Checker")
+        print("-------")
         with open(filepath) as json_file:
             data = json.load(json_file)
             # Compute number of duplicates.
-            nodes = {}
+            nodes_in = [0] * len(self.nodes)
+            nodes_out = [0] * len(self.nodes)
             for edge_id in data["edges"]:
                 edge = self.edges[edge_id]
-                nodes[edge.node_1_id] = nodes.get(edge.node_1_id, 0)
-                nodes[edge.node_2_id] = nodes.get(edge.node_2_id, 0)
-            number_of_duplicates = sum(1 for v in nodes.values() if v > 2)
+                nodes_in[edge.node_1_id] += 1
+                nodes_out[edge.node_2_id] += 1
+            number_of_duplicates = sum(v > 1 for v in nodes_in)
+            number_of_duplicates += sum(v > 1 for v in nodes_out)
             # Compute is_connected and is_cycle.
             is_connected = True
             node_id_prec = None
@@ -80,6 +84,7 @@ class Instance:
             # Compute weight.
             weight = sum(self.edges[edge_id].weight
                          for edge_id in data["edges"])
+
             is_feasible = (
                     (number_of_duplicates == 0)
                     and is_connected
@@ -90,7 +95,7 @@ class Instance:
             print(f"Is cycle: {is_cycle}")
             print(f"Is connected: {is_connected}")
             print(f"Feasible: {is_feasible}")
-            print(f"Weight: {weight} / {self.capacity}")
+            print(f"Weight: {weight}")
             return (is_feasible, weight)
 
 
@@ -127,6 +132,7 @@ if __name__ == "__main__":
             data = {"edges": solution}
             with open(args.certificate, 'w') as json_file:
                 json.dump(data, json_file)
+            print()
             instance.check(args.certificate)
 
     elif args.algorithm == "checker":

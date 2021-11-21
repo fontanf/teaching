@@ -1,0 +1,597 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{interval}
+\usepackage{color}
+\usepackage{xcolor,colortbl}
+\usepackage[style=authoryear, maxcitenames=11, mincitenames=11, natbib=true, uniquename=false, uniquelist=false]{biblatex}
+\addbibresource{main.bib}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing,angles,quotes}
+\usepgflibrary{arrows.meta,shapes.geometric}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{dirtytalk}
+\usepackage{hyperref}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\beamertemplatenavigationsymbolsempty%
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber%
+}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Column Generation Heuristics}
+\date{November 23, 2021}
+
+\begin{document}
+
+\newcommand{\customcite}[1]{\citetitle{#1}, \citeauthor{#1}, \citeyear{#1}}
+
+\AtBeginSection[]
+{%
+  \begin{frame}<beamer>
+    \frametitle{Table of contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\maketitle
+
+\section{Exponential MILP formulations}
+
+\begin{frame}
+  \frametitle{Cutting Stock Problem, Description}
+
+  Input:
+  \begin{itemize}
+    \item a capacity \alert{$C$}
+    \item $n$ item types; for each item type $j = 1, \dots, n$, a weight \alert{$w_j$} and a demand \alert{$q_j$}
+  \end{itemize}
+
+  Problem:
+  \begin{itemize}
+    \item Pack all items such that the total weight of the items in a bin does not exceed the capacity.
+  \end{itemize}
+
+  Objective:
+  \begin{itemize}
+    \item Minimize the number of bin used.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cutting Stock Problem, Formulation}
+
+  Let us define the $K$ possible patterns such that $x_j^k = q$ iff pattern $k$, $k = 1 \dots K$ contains $q$ copies of item type $j$
+
+  \begin{itemize}
+    \item Variables:
+      \begin{itemize}
+        \item $y^k \in \N$,
+          $\forall k = 1 \dots K$.
+
+          $y^k = q$ iff $q$ copies of pattern $k$ are used
+      \end{itemize}
+
+    \item Objective:
+      \begin{displaymath}
+        \min \sum_{k = 1}^{K} y^k
+      \end{displaymath}
+
+    \item Constraints:
+      \begin{align*}
+        \sum_{k = 1}^{K} x_j^k y^k = q_j && \forall j = 1 \dots n \
+      \end{align*}
+  \end{itemize}
+
+  \pause Why is this formulation good compared to the classical one?
+  \begin{itemize}
+    \item \pause No big-M constraint
+    \item Better relaxation
+    \item Easier to write
+  \end{itemize}
+\end{frame}
+
+%\mystar{y}{r}{d-r}{t-r}{p}{nom}
+\def\mystar#1#2#3#4#5#6#7{
+  % 1: y
+  % 2: r_s
+  % 3: d_s - r_s
+  % 4: t_s - r_s
+  % 5: p_s
+  % 6: nom
+  % 7: opacity
+  \begin{scope}[shift={(#2,#1)},opacity=#7,transparency group]
+    \draw[line width=1pt,color=blue,arrows={Bracket-Bracket}] (0.4,0) -- +(#3,0);
+    \draw[line width=5pt,color=red] (0.4,0) ++(#4,0) -- ++(#5,0);
+    \def\tmp{#6}\if\tmp\empty\else
+    \node[star, star point height=3mm, minimum size=5mm, color=yellow, fill=yellow, text=black,scale=.4] at (0,0) {#6};
+    \fi
+  \end{scope}
+}
+
+\def\mystaronly#1#2#3#4{
+  % 1: y
+  % 2: r_s
+  % 3: nom
+  % 4: opacity
+  \begin{scope}[shift={(#2,#1)},opacity=#4,transparency group]
+    \node[star, star point height=3mm, minimum size=5mm, color=yellow, fill=yellow, text=black,scale=.4] at (0,0) {#3};
+  \end{scope}
+}
+
+\begin{frame}
+  \frametitle{Star Observation Scheduling Problem, Description}
+
+  Input: a set \alert{$\cal M$} of nights and a set \alert{$\cal N$} of stars; for each star $j \in\cal N$, a scientific interest \alert{$w_j$}, an observation duration \alert{$p_j^i$} and a visibility window \alert{$\interval[open right]{r_j^i}{d_j^i}$}, depending on the night $i$ of the observation.
+  
+  \vfill
+  
+  \only<1>{%
+    \begin{tikzpicture}
+      % \mystar{y}{r}{d-r}{t-r}{p}{nom}
+      \mystaronly{2.5}{-.2}{$1$}{1}
+      \mystaronly{2.0}{-.2}{$2$}{1}
+      \mystaronly{1.5}{-.2}{$3$}{1}
+      \mystaronly{1.0}{-.2}{$4$}{1}
+      \mystaronly{0.5}{-.2}{$5$}{1}
+      \mystaronly{0.0}{-.2}{$6$}{1}
+      \mystar{2.5}{0}{2.5}{0.25}{2}{}{1}     \mystar{2.5}{5.3}{3.0}{0.5}{2}{}{1}
+      \mystar{2.0}{3.0}{1.5}{.25}{1}{}{1}      \mystar{2.0}{7.5}{1.5}{.25}{1}{}{1}
+      \mystar{1.5}{1.5}{3.0}{0.5}{2}{}{1}      \mystar{1.5}{5.8}{2.8}{0.4}{2}{}{1}
+      \mystar{1.0}{0.5}{2.0}{0.45}{1.1}{}{1}   \mystar{1.0}{5.2}{2.0}{0.45}{1.1}{}{1}
+      \mystar{0.5}{3.5}{1.25}{0.25}{0.75}{}{1} \mystar{0.5}{8.2}{1.25}{0.25}{0.75}{}{1}
+      \mystar{0}{2}{2.5}{.5}{1.5}{}{1}    \mystar{0}{6.7}{2.75}{.625}{1.5}{}{1}
+
+      \draw[color=gray,dotted,line width=3pt] (.2,3)--(.2,-1) (5.4,3)--(5.4,-1) (10.1,3)--(10.1,-1);
+
+      \node [gray] at (2.5,-.8) {nuit 1};
+      \node [gray] at (8.3,-.8) {nuit 2};
+    \end{tikzpicture}
+  }
+  \only<2>{%
+    \begin{tikzpicture}
+      % \mystar{y}{r}{d-r}{t-r}{p}{nom}
+      \mystaronly{2.5}{-.2}{$1$}{1}
+      \mystaronly{2.0}{-.2}{$2$}{.2}
+      \mystaronly{1.5}{-.2}{$3$}{1}
+      \mystaronly{1.0}{-.2}{$4$}{1}
+      \mystaronly{0.5}{-.2}{$5$}{1}
+      \mystaronly{0.0}{-.2}{$6$}{1}
+      \mystar{2.5}{0}{2.5}{0}{2}{}{1}        \mystar{2.5}{5.3}{3.0}{0.5}{2}{}{.2}
+      \mystar{2.0}{3.0}{1.5}{.25}{1}{}{.2}     \mystar{2.0}{7.5}{1.5}{.25}{1}{}{.2}
+      \mystar{1.5}{1.5}{3.0}{0.5}{2}{}{1}      \mystar{1.5}{5.8}{2.8}{0.4}{2}{}{.2}
+      \mystar{1.0}{0.5}{2.0}{0.45}{1.1}{}{.2}  \mystar{1.0}{5.2}{2.0}{0}{1.1}{}{1}
+      \mystar{0.5}{3.5}{1.25}{0.5}{0.75}{}{1}  \mystar{0.5}{8.2}{1.25}{0.25}{0.75}{}{.2}
+      \mystar{0}{2}{2.5}{.5}{1.5}{}{.2}   \mystar{0}{6.7}{2.75}{0}{1.5}{}{1}
+
+      \draw[color=gray,dotted,line width=3pt] (.2,3)--(.2,-1) (5.4,3)--(5.4,-1) (10.1,3)--(10.1,-1);
+
+      \node [gray] at (2.5,-.8) {nuit 1};
+      \node [gray] at (8.3,-.8) {nuit 2};
+    \end{tikzpicture}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Star Observation Scheduling Problem, Formulation}
+
+  For each night $i$, $i = 1 \dots m$, let us define the $K_i$ possible schedules such that $x_{i, j}^k = 1$ iff schedule $k$, $k = 1 \dots K_i$ of night $i$ contains star $j$
+
+  \begin{itemize}
+    \item Variables:
+      \begin{itemize}
+        \item $y_i^k \in \{0, 1\}$,
+          $\forall i = 1 \dots m$, $\forall k = 1 \dots K_i$.
+
+          $y_i^k = 1$ iff scheduled $k$ of night $i$ is selected
+      \end{itemize}
+
+    \item Objective:
+      \begin{displaymath}
+        \max \sum_{i = 1}^m \sum_{k = 1}^{K_i} \sum_{j = 1}^n w_j x_{i, j}^k y_i^k
+      \end{displaymath}
+
+    \item Constraints:
+      \begin{align*}
+        1 \le \sum_{k = 1}^{K_i} y_i^k \le 1 && \forall i = 1 \dots m \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = 1 && \forall j = 1 \dots n \\
+      \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{2D Guillotine Variable-sized Bin Packing, Description}
+
+  Input:
+  \begin{itemize}
+    \item $n$ item types; for each item type $j = 1, \dots, n$, a width \alert{$w_j$}, a height \alert{$h_j$} and a demand \alert{$q_j$}
+    \item $m$ bin types; for each bin type $i = 1, \dots, m$, a lower bound \alert{$l_i$}, an upper bound \alert{$u_i$} and a cost \alert{$c_i$}
+  \end{itemize}
+
+  Problem:
+  \begin{itemize}
+    \item Find a subset of guillotine patterns such that all item type demands and bin type use bounds are satisfied
+  \end{itemize}
+
+  Objective:
+  \begin{itemize}
+    \item Minimize the cost of the selected bins.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{2D Guillotine Variable-sized Bin Packing, Formulation}
+
+  For each bin type $i$, $i = 1 \dots m$, let us define the $K_i$ possible patterns such that $x_{i, j}^k = q$ iff pattern $k$, $k = 1 \dots K_i$ of bin type $i$ contains $q$ copies of item type $j$
+
+  \begin{itemize}
+    \item Variables:
+      \begin{itemize}
+        \item $y_i^k \in \N$,
+          $\forall i = 1 \dots m$, $\forall k = 1 \dots K_i$.
+
+          $y_i^k = q$ iff $q$ copies of pattern $k$ of bin type $i$ are used
+      \end{itemize}
+
+    \item Objective:
+      \begin{displaymath}
+        \min \sum_{i = 1}^m \sum_{k = 1}^{K_i} c_i y_i^k
+      \end{displaymath}
+
+    \item Constraints:
+      \begin{align*}
+        l_i \le \sum_{k = 1}^{K_i} y_i^k \le u_i && \forall i = 1 \dots m \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = q_j && \forall j = 1 \dots n \\
+      \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Other examples}
+
+  Usually, variables represent:
+  \begin{itemize}
+    \item A bin/knapsack (for packing problems)
+    \item The schedule of a machine (for parallel scheduling problems)
+    \item The route of a vehicle (for vehicle routing problems)
+    \item \dots
+  \end{itemize}
+\end{frame}
+
+\section{Solving the relaxation by Column Generation}
+
+\begin{frame}
+  \frametitle{Introduction}
+  
+  \begin{itemize}
+    \item With these formulations, generating all the variables is generally not possible since their number grows exponentially with the size of the problem.
+    \item First we focus on solving the \alert{linear relaxation}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Column Generation procedure}
+  
+  \begin{itemize}
+    \item We use the \alert{simplex algorithm}.
+      \begin{itemize}
+        \item At each iteration, it adds a variable of negative reduced cost to the current basis
+        \begin{itemize}
+          \item Objective:
+            \begin{displaymath}
+              \min \sum_{j = 1}^n c_j x_j
+            \end{displaymath}
+          \item Constraints:
+          \begin{align*}
+            \sum_{j = 1}^n a_{i, j} x_j \le b_j && \forall j = 1 \dots n \\
+          \end{align*}
+          \item Reduced cost of variable $x_j$:
+            \begin{displaymath}
+              c_j - a_{i, j} v_j
+            \end{displaymath}
+            with $v_j$ the dual value of constraint $j$.
+        \end{itemize}
+        \item It stops when there are no variable of negative reduced cost
+      \end{itemize}
+    \item The difference with the traditional simplex algorithm, is that here, it is not possible to loop through all the variables to find a variable of negative reduced cost, since they have not been all generated.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Column Generation procedure}
+  \begin{itemize}
+    \item Instead, finding a variable of negative reduced cost becomes of optimization problem
+
+    \item Example with the Cutting Stock Problem
+      \begin{itemize}
+        \item Objective:
+          \begin{displaymath}
+            \min \sum_{k = 1}^{K} y^k
+          \end{displaymath}
+
+        \item Constraints:
+          \begin{align*}
+            \sum_{k = 1}^{K} x_j^k y^k = q_j && \forall j = 1 \dots n \\
+          \end{align*}
+      \end{itemize}
+
+    \item Reduced cost of $y^k$:
+      \begin{displaymath}
+        1 - \sum_{j = 1}^n x_j^k v_j
+      \end{displaymath}
+      with $v_j$ the dual value of constraint $j$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Column Generation procedure}
+  
+  \begin{itemize}
+    \item We look for a variable $y^k$ such that
+      \begin{displaymath}
+        1 - \sum_{j = 1}^n x_j^k v_j < 0
+      \end{displaymath}
+    
+    \item Finding a variable of negative reduced cost is equivalent to finding a pattern with total profit $\ge 1$ with the profit of item type $j$ being equal to $v_j$.
+
+    \item In practice, we solve the problem as an optimization problem: we find the best solution of the Knapsack Problem and check if the reduced cost of the corresponding variable is negative.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Column Generation procedure}
+  
+  Summary:
+  \begin{algorithmic}
+    \Function{ColumnGeneration}{$P$}
+    \State $Y \gets \text{initial set of columns}$
+    \While{True}
+    \State Solve the Linear Program $P'$ with variables from $Y$
+    \State Look for a variable of negative reduced cost (\alert{Pricing Problem})
+    \If {there is one}
+    \State Add it to $Y$
+    \Else
+    \State \Return the solution of $P'$
+    \EndIf
+    \EndWhile
+    \EndFunction
+  \end{algorithmic}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Initial set of columns}
+
+  \begin{itemize}
+    \item To get dual values, the LP needs to be feasible
+    \item With $0$ variable, the LP might be infeasible
+      \begin{itemize}
+        \item Example: Cutting Stock Problem, demand constraints are not satisfied
+      \end{itemize}
+    \item Therefore, we need to find a way to get an initial set of columns such that the LP is feasible
+      \begin{itemize}
+        \item Find a feasible solution and add the corresponding columns
+          \begin{itemize}
+            \item Example: Cutting Stock, Best Fit algorithm
+            \item Drawback: Problem specific, additional work for the implementation of the heuristic
+            \item Advantage: if the solution is good, it might speed up the column generation proceudre
+          \end{itemize}
+        \item Find manually a set of columns that ensures the LP to be feasible
+          \begin{itemize}
+            \item Example: create $n$ columns with only one item
+          \end{itemize}
+        \item Generate a dummy column with very high cost for each problematic constraint
+          \begin{itemize}
+            \item Advantage: not problem specific
+            \item Drawback: numerical issue is the cost of the dummy columns is not well calibrated
+          \end{itemize}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Star Observation Scheduling Problem}
+
+  \begin{itemize}
+    \item Objective:
+      \begin{displaymath}
+        \max \sum_{i = 1}^m \sum_{k = 1}^{K_i} \sum_{j = 1}^n w_j x_{i, j}^k y_i^k
+      \end{displaymath}
+
+    \item Constraints:
+      \begin{align*}
+        1 \le \sum_{k = 1}^{K_i} y_i^k \le 1 && \forall i = 1 \dots m && \alert{\text{dual } u_j} \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = 1 && \forall j = 1 \dots n && \alert{\text{dual } v_j} \\
+      \end{align*}
+
+    \item \pause Reduced cost of $y_i^k$:
+      \begin{displaymath}
+        \sum_{j = 1}^n w_j x_{i, j}^k - u_i - \sum_{j = 1}^n x_{i, j}^k v_j
+        = \sum_{j = 1}^n (w_j - v_j) x_{i, j}^k - u_i
+      \end{displaymath}
+
+    \item \pause Finding a variable of maximum reduced cost reduces to solving $m$ Single Night Star Observation Scheduling Problems with targets with profit $w_j - v_j$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{2D Guillotine Variable-sized Bin Packing, Pricing}
+  
+  \begin{itemize}
+    \item Objective:
+      \begin{displaymath}
+        \min \sum_{i = 1}^m \sum_{k = 1}^{K_i} c_i y_i^k
+      \end{displaymath}
+
+    \item Constraints:
+      \begin{align*}
+        l_i \le \sum_{k = 1}^{K_i} y_i^k \le u_i && \forall i = 1 \dots m && \alert{\text{dual } u_j} \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = q_j && \forall j = 1 \dots n && \alert{\text{dual } v_j} \\
+      \end{align*}
+
+    \item \pause Reduced cost of $y_i^k$:
+      \begin{displaymath}
+        c_i - u_i - \sum_{j = 1}^n x_j^k v_j
+      \end{displaymath}
+
+    \item \pause Finding a variable of minium reduced cost reduces to solving $m$ 2D Guillotine Knapsack Problems with items with profit $v_j$ for each bin type.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Transition}
+
+  \begin{itemize}
+    \item The Column Generation procedure solves the relaxation of the exponential formulation
+    \item \pause Thus, it provides a valid bound
+    \item \pause But it generally does not provide a feasible solution
+    \item \pause How to exploit the Column Generation to get feasible solutions?
+  \end{itemize}
+\end{frame}
+
+\section{Finding solutions after the Column Generation}
+
+\begin{frame}
+  \frametitle{The Branch-and-Price algorithm}
+  
+  \begin{itemize}
+    \item LP-based branch-and-bound, the relaxation is solved by the Column Generation procedure in each node
+    \item How to branch?
+      \begin{itemize}
+        \item Branching on columns of the exponential formulation? No, the pricing problem becomes to difficult
+          \item Branching on the variables of the primal formulation?
+            \begin{itemize}
+              \item Bin Packing: branch on whether item $j$ is packed in bin $i$ or not. If yes, then the available bins have now different capacities and a Knapsack Problem for each capacity needs to be computed
+            \end{itemize}
+          \item Best solution for the Bin Packing: branch on whether two items are packed in the same bin or not. If yes, then they are merged into a single item. If no, then the subproblem becomes a Knapsack Problem with Conflicts which is strongly NP-hard
+      \end{itemize}
+      \item $\implies$ Complex to implement.
+      \item It can be combined with cuts (Branch-and-Price-and-Cut). The added cuts might also change the pricing problem $\implies$ even more complex to implement
+      \item Only exact method based on Column Generation, state-of-the-art exact method for many Vehicle Routing and Parallel Machine Scheduling Problems
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Solving the restricted master}
+
+  \begin{itemize}
+    \item The Column Generation procedure is executed once
+    \item Solve the exponential formulation with a MILP solver using only the columns generated during the Column Generation procedure
+    \item No guarantee to find the optimal solution (or even a feasible solution)
+    \item Solving the MILP is computationaly expensive if many columns have been generated. It can take some time before finding a first solution
+    \item It requires a good MILP solver 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Heuristic Tree Search}
+
+  Branching scheme:
+  \begin{itemize}
+    \item Root node: no column has been fixed
+    \item Children: solve the relaxation by column generation, select the variable $y$ with the most integral value $v \neq 0$, for each possible value $v'$ of $y$ create one child.
+    \item The discrepancy of a child is computed as:
+      \begin{displaymath}
+        \mathrm{disc}_\text{child} = \mathrm{disc}_\text{father} + | v' - v |
+      \end{displaymath}
+  \end{itemize}
+
+  Algorithms:
+  \begin{itemize}
+    \item Greedy
+    \item Limited Discrepancy Search
+  \end{itemize}
+
+  Note that the depth of the tree is of the order of the number of columns in a solution.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Additional tricks}
+
+  \begin{itemize}
+    \item Using a fast heuristic algorithm to solve the pricing problem. If the heuristic doesn't find a column of negative reduced cost:
+      \begin{itemize}
+        \item Case 1: Try with a more expensive exact algorithm
+        \item Case 2: Stop the column generation procedure. The bound is not valid, therefore, it is not possible to use an exact Branch-and-price in this case. But the heuristics still work.
+      \end{itemize}
+    \item Generating columns without the simplex algorithm
+      \begin{itemize}
+        \item It might be faster than the column generation procedure
+        \item It might be difficult to generate columns that fit well together
+        \item No bound
+        \item Then solve the restricted master or use a Heuristic Tree Search algorithm
+      \end{itemize}
+    \item Solving the restricted master with a heuristic algorithm
+      \begin{itemize}
+        \item Often, the master problem is a set covering or set packing problem for which heuristic algorithms have already been developed
+        \item It might be faster than a MILP solver
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{\texttt{columngenerationsolverpy}}
+
+\begin{frame}
+  \frametitle{\texttt{columngenerationsolverpy}}
+
+  \begin{itemize}
+    \item A package that simplifies the implementation of Column Generation based algorithms
+    \item Written in \texttt{Python3} (original version in \texttt{C++})
+    \item \url{https://github.com/fontanf/columngenerationsolverpy}
+    \item Install with: \texttt{pip3 install columngenerationsolverpy}
+    \item It includes:
+      \begin{itemize}
+        \item The Column Generation algorithm
+        \item The Greedy algorithm
+        \item The Limited Discrepancy Search algorithm
+      \end{itemize}
+    \item To solve a problem, one needs to provide the exponential formulation and the solver for the Pricing Problem (able to take as input the currently fixed columns)
+    \item The implementation of the Greedy algorithm and the Limited Discpreancy Search algorithm relies on the \texttt{treesearchsolverpy} package
+  \end{itemize}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Conclusion}
+
+  \begin{itemize}
+    \item Column Generation: solving the relaxation of exponential formulations by generating the columns dynamically
+    \item It can be embedded in a classical Branch-and-bound
+      \begin{itemize}
+        \item State-of-the art exact method for many Vehicle Routing and Parallel Machine Scheduling Problems
+        \item Cumbersome to implement
+      \end{itemize}
+    \item It can be embedded in a Heuristic Tree Search framework
+      \begin{itemize}
+        \item Also state of the art heuristics for several problems
+        \item Easier to implement
+      \end{itemize}
+    \item Works better when the number of elements in columns is small ($\le 20$)
+  \end{itemize}
+\end{frame}
+
+\maketitle
+
+\end{document}
+

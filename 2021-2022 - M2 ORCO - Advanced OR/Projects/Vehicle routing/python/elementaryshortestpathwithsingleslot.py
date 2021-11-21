@@ -56,6 +56,8 @@ class Instance:
             json.dump(data, json_file)
 
     def check(self, filepath):
+        print("Checker")
+        print("-------")
         with open(filepath) as json_file:
             data = json.load(json_file)
             locations = data["locations"]
@@ -117,6 +119,7 @@ if __name__ == "__main__":
             data = {"locations": solution}
             with open(args.certificate, 'w') as json_file:
                 json.dump(data, json_file)
+            print()
             instance.check(args.certificate)
 
     elif args.algorithm == "checker":
