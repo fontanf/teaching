@@ -213,8 +213,8 @@
 
     \item Constraints:
       \begin{align*}
-        1 \le \sum_{k = 1}^{K_i} y_i^k \le 1 && \forall i = 1 \dots m \\
-        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = 1 && \forall j = 1 \dots n \\
+        \sum_{k = 1}^{K_i} y_i^k = 1 && \forall i = 1 \dots m \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k \le 1 && \forall j = 1 \dots n \\
       \end{align*}
   \end{itemize}
 \end{frame}
@@ -225,7 +225,7 @@
   Input:
   \begin{itemize}
     \item $n$ item types; for each item type $j = 1, \dots, n$, a width \alert{$w_j$}, a height \alert{$h_j$} and a demand \alert{$q_j$}
-    \item $m$ bin types; for each bin type $i = 1, \dots, m$, a lower bound \alert{$l_i$}, an upper bound \alert{$u_i$} and a cost \alert{$c_i$}
+    \item $m$ bin types; for each bin type $i = 1, \dots, m$, a wdith \alert{$W_i$}, a heigh \alert{$H_i$}, a lower bound \alert{$l_i$}, an upper bound \alert{$u_i$} and a cost \alert{$c_i$}
   \end{itemize}
 
   Problem:
@@ -307,9 +307,9 @@
           \end{align*}
           \item Reduced cost of variable $x_j$:
             \begin{displaymath}
-              c_j - a_{i, j} v_j
+              c_j - \sum_{i = 1}^m a_{i, j} v_i
             \end{displaymath}
-            with $v_j$ the dual value of constraint $j$.
+            with $v_i$ the dual value of constraint $i$.
         \end{itemize}
         \item It stops when there are no variable of negative reduced cost
       \end{itemize}
@@ -320,7 +320,7 @@
 \begin{frame}
   \frametitle{The Column Generation procedure}
   \begin{itemize}
-    \item Instead, finding a variable of negative reduced cost becomes of optimization problem
+    \item Instead, finding a variable of negative reduced cost becomes an optimization problem
 
     \item Example with the Cutting Stock Problem
       \begin{itemize}
@@ -410,7 +410,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Star Observation Scheduling Problem}
+  \frametitle{Star Observation Scheduling Problem, Pricing}
 
   \begin{itemize}
     \item Objective:
@@ -420,8 +420,8 @@
 
     \item Constraints:
       \begin{align*}
-        1 \le \sum_{k = 1}^{K_i} y_i^k \le 1 && \forall i = 1 \dots m && \alert{\text{dual } u_j} \\
-        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = 1 && \forall j = 1 \dots n && \alert{\text{dual } v_j} \\
+        \sum_{k = 1}^{K_i} y_i^k = 1 && \forall i = 1 \dots m && \alert{\text{dual } u_i} \\
+        \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k \le 1 && \forall j = 1 \dots n && \alert{\text{dual } v_j} \\
       \end{align*}
 
     \item \pause Reduced cost of $y_i^k$:
@@ -445,13 +445,13 @@
 
     \item Constraints:
       \begin{align*}
-        l_i \le \sum_{k = 1}^{K_i} y_i^k \le u_i && \forall i = 1 \dots m && \alert{\text{dual } u_j} \\
+        l_i \le \sum_{k = 1}^{K_i} y_i^k \le u_i && \forall i = 1 \dots m && \alert{\text{dual } u'_i} \\
         \sum_{i = 1}^n \sum_{k = 1}^{K_i} x_{i, j}^k y_i^k = q_j && \forall j = 1 \dots n && \alert{\text{dual } v_j} \\
       \end{align*}
 
     \item \pause Reduced cost of $y_i^k$:
       \begin{displaymath}
-        c_i - u_i - \sum_{j = 1}^n x_j^k v_j
+        c_i - u'_i - \sum_{j = 1}^n x_j^k v_j
       \end{displaymath}
 
     \item \pause Finding a variable of minium reduced cost reduces to solving $m$ 2D Guillotine Knapsack Problems with items with profit $v_j$ for each bin type.

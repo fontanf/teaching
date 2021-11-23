@@ -573,12 +573,12 @@
   \onslide<7->{%
     \begin{algorithmic}
       \Function{A}{branching\_scheme}
-      \State$\mathrm{queue} \gets \{ \mathrm{branching\_scheme.root}() \}$
-      \While{$\mathrm{queue}$ is not empty}
-      \State$\mathrm{node} \gets \text{extract \say{best} node from $q$}$
-      \State$\mathrm{queue} \gets \mathrm{queue} \cup \mathrm{branching\_scheme.children}(\mathrm{node})$
-      \EndWhile{}
-      \EndFunction{}
+      \State $\mathrm{queue} \gets \{ \mathrm{branching\_scheme.root}() \}$
+      \While {$\mathrm{queue}$ is not empty}
+      \State $\mathrm{node} \gets \text{extract \say{best} node from $\mathrm{queue}$}$
+      \State $\mathrm{queue} \gets \mathrm{queue} \cup \mathrm{branching\_scheme.children}(\mathrm{node})$
+      \EndWhile
+      \EndFunction
     \end{algorithmic}
   }
 \end{frame}
