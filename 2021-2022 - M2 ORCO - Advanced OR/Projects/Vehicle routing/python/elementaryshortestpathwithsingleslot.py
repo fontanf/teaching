@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     if args.algorithm == "dynamic_programming":
         instance = Instance(args.instance)
-        solution = dynamic_programming()
+        solution = dynamic_programming(instance)
         if args.certificate is not None:
             data = {"locations": solution}
             with open(args.certificate, 'w') as json_file:
