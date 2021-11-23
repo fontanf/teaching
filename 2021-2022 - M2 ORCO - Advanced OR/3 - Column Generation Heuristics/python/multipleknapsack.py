@@ -19,23 +19,23 @@ Variables:
 
 Program:
 
-max ∑ᵢ ∑ₖ (∑ⱼ cⱼ xⱼᵢᵏ) yᵢᵏ
-                                     Note that (∑ⱼ cⱼ xⱼᵢᵏ) is a constant.
+max ∑ᵢ ∑ₖ (∑ⱼ pⱼ xⱼᵢᵏ) yᵢᵏ
+                                     Note that (∑ⱼ pⱼ xⱼᵢᵏ) is a constant.
 
 1 <= ∑ₖ yᵢᵏ <= 1        for all knapsack i
                       (not more than 1 packing selected for each knapsack)
                                                         Dual variables: uᵢ
-0 <= ∑ₖ xⱼᵢᵏ yᵢᵏ <= 1   for all items j
+0 <= ∑ᵢ∑ₖ xⱼᵢᵏ yᵢᵏ <= 1   for all items j
                                          (each item selected at most once)
                                                         Dual variables: vⱼ
 
 The pricing problem consists in finding a variable of positive reduced cost.
 The reduced cost of a variable yᵢᵏ is given by:
-rc(yᵢᵏ) = ∑ⱼ cⱼ xⱼᵢᵏ - uᵢ - ∑ⱼ xⱼᵢᵏ vⱼ
-        = ∑ⱼ (cⱼ - vⱼ) xⱼᵢᵏ - uᵢ
+rc(yᵢᵏ) = ∑ⱼ pⱼ xⱼᵢᵏ - uᵢ - ∑ⱼ xⱼᵢᵏ vⱼ
+        = ∑ⱼ (pⱼ - vⱼ) xⱼᵢᵏ - uᵢ
 
 Therefore, finding a variable of maximum reduced cost reduces to solving
-m Knapsack Problems with items with profit (cⱼ - vⱼ).
+m Knapsack Problems with items with profit (pⱼ - vⱼ).
 
 """
 
