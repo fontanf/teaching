@@ -26,7 +26,7 @@ class Instance:
     def add_job(self, processing_time, size):
         job = Job()
         job.id = len(self.jobs)
-        job.processing_times = processing_time
+        job.processing_time = processing_time
         job.size = size
         self.jobs.append(job)
 
