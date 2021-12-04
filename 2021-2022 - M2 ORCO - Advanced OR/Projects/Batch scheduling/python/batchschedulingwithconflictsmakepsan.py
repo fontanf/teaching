@@ -83,9 +83,9 @@ class Instance:
                     for batch in data["jobs"])
 
             is_feasible = (
-                    (number_of_scheduled_jobs == len(self.jobs))
-                    (number_of_duplicates == 0)
-                    (number_of_overweighted_batches == 0)
+                    (number_of_scheduled_jobs == len(self.jobs)) and
+                    (number_of_duplicates == 0) and
+                    (number_of_overweighted_batches == 0) and
                     (number_of_conflicts == 0))
             print(f"Makespan: {makespan}")
             print(f"Number of scheduled jobs: {number_of_scheduled_jobs}")
