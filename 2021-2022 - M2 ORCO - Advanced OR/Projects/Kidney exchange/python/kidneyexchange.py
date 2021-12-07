@@ -66,7 +66,7 @@ class Instance:
             nodes_in = [0] * len(self.nodes)
             nodes_out = [0] * len(self.nodes)
             for edges in data["cycles"]:
-                for edge_id in data["edges"]:
+                for edge_id in edges:
                     edge = self.edges[edge_id]
                     nodes_in[edge.node_1_id] += 1
                     nodes_out[edge.node_2_id] += 1
@@ -83,7 +83,7 @@ class Instance:
                         if edge.node_1_id != node_id_prec:
                             is_connected = False
                     node_id_prec = edge.node_2_id
-                is_cycle = (node_id_prec == self.edges[edges[0].node_1_id])
+                is_cycle = (node_id_prec == self.edges[edges[0]].node_1_id)
                 length = len(edges)
                 if (
                         not is_connected
@@ -145,7 +145,7 @@ def get_parameters(instance):
 
 
 def to_solution(columns, fixed_columns):
-    solution = []
+    solution = {'cycles': []}
     for column, value in fixed_columns:
         # TODO START
         pass
@@ -193,8 +193,7 @@ if __name__ == "__main__":
                     parameters)
         solution = to_solution(parameters.columns, output["solution"])
         if args.certificate is not None:
-            data = {"cycles": solution}
             with open(args.certificate, 'w') as json_file:
-                json.dump(data, json_file)
+                json.dump(solution, json_file)
             print()
             instance.check(args.certificate)
