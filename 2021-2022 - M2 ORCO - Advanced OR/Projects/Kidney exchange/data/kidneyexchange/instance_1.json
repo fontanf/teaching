@@ -1,1 +1,1 @@
-{"maximum_cycle_length": 4, "maximum_path_length": 15, "edge_heads": [], "edge_tails": [], "edge_weights": []}
+{"maximum_cycle_length": 4, "maximum_path_length": 15, "selfless_donors": [], "edge_heads": [], "edge_tails": [], "edge_weights": []}

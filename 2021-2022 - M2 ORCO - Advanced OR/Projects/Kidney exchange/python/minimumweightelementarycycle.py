@@ -78,7 +78,7 @@ class Instance:
                     if edge.node_1_id != node_id_prec:
                         is_connected = False
                 node_id_prec = edge.node_2_id
-            is_cycle = (node_id_prec == self.edges[data["edges"][0].node_1_id])
+            is_cycle = (node_id_prec == self.edges[data["edges"][0]].node_1_id)
             # Compute lenght.
             length = len(data["edges"])
             # Compute weight.
