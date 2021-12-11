@@ -59,7 +59,7 @@ class Instance:
                 current_time += job.processing_time
                 if current_time > job.due_date:
                     total_weighted_tardiness \
-                            += job.weight * (job.due_date - current_time)
+                            += job.weight * (current_time - job.due_date)
             # Compute number of duplicates.
             number_of_duplicates = len(data["jobs"]) - len(set(data["jobs"]))
             is_feasible = (
