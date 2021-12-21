@@ -1,1 +1,1 @@
-{"number_of_machines": 1, "processing_times": [[80], [71], [66], [76], [43]], "weights": [1, 1, 4, 1, 4], "due_dates": [141, 24, 161, 157, 86]}
+{"number_of_machines": 1, "processing_times": [[80], [71], [66], [76], [43]], "weights": [1, 1, 4, 1, 4], "due_dates": [281, 48, 321, 314, 171]}
