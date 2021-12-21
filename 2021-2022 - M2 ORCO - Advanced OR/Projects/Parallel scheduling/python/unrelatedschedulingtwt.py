@@ -49,6 +49,7 @@ class Instance:
             data = json.load(json_file)
             # Compute total weighted tardiness.
             total_weighted_tardiness = 0
+            number_of_late_jobs = 0
             for i in range(self.number_of_machines):
                 current_time = 0
                 for job_id in data["jobs"][i]:
@@ -57,6 +58,7 @@ class Instance:
                     if current_time > job.due_date:
                         wt = job.weight * (current_time - job.due_date)
                         total_weighted_tardiness += wt
+                        number_of_late_jobs += 1
             # Compute number of scheduled jobs and number of duplicates.
             job_list = [job_id
                         for i in range(self.number_of_machines)
@@ -71,6 +73,7 @@ class Instance:
             print(f"Total weighted tardiness: "
                   f"{total_weighted_tardiness}")
             print(f"Number of scheduled jobs: {number_of_scheduled_jobs}")
+            print(f"Number of late jobs: {number_of_late_jobs}")
             print(f"Number of duplicates: {number_of_duplicates}")
             print(f"Feasible: {is_feasible}")
             return (is_feasible, total_weighted_tardiness)
@@ -169,8 +172,9 @@ if __name__ == "__main__":
             for job_id in range(number_of_jobs):
                 ps = processing_times[job_id]
                 weight = random.randint(1, 5)
-                due_date = random.randint(1, total_time // 2)
-                total_time += weight
+                due_date = random.randint(
+                        1,
+                        total_time // number_of_machines)
                 instance.add_job(ps, weight, due_date)
             instance.write(
                     args.instance + "_" + str(number_of_jobs) + ".json")
