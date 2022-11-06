@@ -1,0 +1,1 @@
+{"batch_capacity": 1000, "job_processing_times": [382, 326, 233, 380, 147, 304], "job_sizes": [344, 366, 131, 107, 468, 463], "conflicts": [[0, 5], [1, 2], [3, 4]]}

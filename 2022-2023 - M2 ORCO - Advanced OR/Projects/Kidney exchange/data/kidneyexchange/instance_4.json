@@ -1,0 +1,1 @@
+{"maximum_cycle_length": 4, "maximum_path_length": 15, "selfless_donors": [], "edge_heads": [0, 1, 2, 0, 2, 3, 2, 0, 1, 3], "edge_tails": [1, 2, 1, 3, 0, 0, 3, 2, 0, 2], "edge_weights": [83, 91, 78, 87, 97, 19, 13, 25, 91, 34]}
