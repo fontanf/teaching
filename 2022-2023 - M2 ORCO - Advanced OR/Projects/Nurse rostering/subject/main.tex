@@ -50,7 +50,7 @@ The delivrable must contain:
 
 The nurse rostering problem is the problem of assigning nurses to shifts to create a roster satisfying some predetermined requirements.
 
-A day is composed of three types of work shifts: the early shift, the late shift and the night shift. For each shift of each day of the scheduling horizon, a number of nurses is requested. The goal is to find a schedule for each nurse such that these requirements are satisfied as much as possible, while satisfying various other constraints.
+A day is composed of three types of work shifts: the early shift, the late shift and the night shift. For each shift of each day of the scheduling horizon, a number of nurses is requested. The goal is to find a schedule for each nurse such that these requirements and the other constraints are satisfied, while minimizing the number of nurses.
 
 \section{Dynamic Programming}
 
@@ -58,10 +58,7 @@ We consider the following shift selection problem:
 \begin{itemize}
   \item Input:
     \begin{itemize}
-      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t$
-        \begin{itemize}
-          \item a profit $p_{j, t}$
-        \end{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a profit $p_{j, t}$
       \item a maximum work time $c$
     \end{itemize}
   \item Problem: find a set of shifts such that
@@ -70,7 +67,7 @@ We consider the following shift selection problem:
       \item the night shift of a day and the early shift of the next day are not both selected
       \item at most $c$ shifts are selected
     \end{itemize}
-  \item Objective: maximize profit of the selected shifts
+  \item Objective: maximize the profit of the selected shifts
 \end{itemize}
 
 Propose and implement an algorithm based on Dynamic Programming for this problem.
@@ -81,12 +78,9 @@ We consider the following shift selection problem including the constraint \say{
 \begin{itemize}
   \item Input:
     \begin{itemize}
-      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t$
-        \begin{itemize}
-          \item a profit $p_{j, t}$
-        \end{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a profit $p_{j, t}$
       \item a maximum work time $c$
-      \item \textbf{for each shift type $t = 1, \dots, 3$, a maximum number of shift of this type $m_t$}
+      \item \textbf{for each shift type $t = 1, 2, 3$, a maximum number of shifts of this type $m_t$}
     \end{itemize}
   \item Problem: find a set of shifts such that
     \begin{itemize}
@@ -95,7 +89,7 @@ We consider the following shift selection problem including the constraint \say{
       \item at most $c$ shifts are selected
       \item \textbf{at most $m_t$ shifts of a type $t$ are selected}
     \end{itemize}
-  \item Objective: maximize profit of the selected shifts
+  \item Objective: maximize the profit of the selected shifts
 \end{itemize}
 
 Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
@@ -106,22 +100,17 @@ We consider the following nurse rostering problem including the constraint:
 \begin{itemize}
   \item Input:
     \begin{itemize}
-      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t$
-        \begin{itemize}
-          \item a requested number of nurses $s_{j, t}$
-        \end{itemize}
-      \item $m$ nurses; for each nurse $i = 1, \dots, m$
-        \begin{itemize}
-          \item a maximum work time $c_i$
-        \end{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a requested number of nurses $s_{j, t}$
+      \item a maximum work time $c$
     \end{itemize}
   \item Problem: for each nurse, find an assignment of shifts such that
     \begin{itemize}
+      \item $s_{j, t}$ nurses are assigned to shift $t$ of day $j$
       \item a nurse is assigned at most one shift each day
       \item a nurse is not assigned the night shift of a day and the early shift of the next day
-      \item nurse $i$ is not assigned more than $c_i$ shifts
+      \item a nurse is not assigned more than $c$ shifts
     \end{itemize}
-  \item Objective: maximize the number of requested nurses for each shift of each day
+  \item Objective: minimize the number of nurses
 \end{itemize}
 
 Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
@@ -132,24 +121,20 @@ We consider the following nurse rostering problem including the constraint \say{
 \begin{itemize}
   \item Input:
     \begin{itemize}
-      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t$
-        \begin{itemize}
-          \item a requested number of nurses $s_{j, t}$
-        \end{itemize}
-      \item $m$ nurses; for each nurse $i = 1, \dots, m$
-        \begin{itemize}
-          \item a maximum work time $c_i$
-          \item \textbf{for each shift type $t = 1, \dots, 3$, a maximum number of shift of this type $m_{i, t}$}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a requested number of nurses $s_{j, t}$
+      \item a maximum work time $c$
+      \item \textbf{for each shift type $t = 1, 2, 3$, a maximum number of shifts of this type $m_t$}
         \end{itemize}
     \end{itemize}
   \item Problem: for each nurse, find an assignment of shifts such that
     \begin{itemize}
+      \item $s_{j, t}$ nurses are assigned to shift $t$ of day $j$
       \item a nurse is assigned at most one shift each day
       \item a nurse is not assigned the night shift of a day and the early shift of the next day
-      \item nurse $i$ is not assigned more than $c_i$ shifts
-      \item \textbf{nurse $i$ is not assigned more than $m_{i, t}$ shifts of a type $t$}
+      \item a nurse is not assigned more than $c$ shifts
+      \item \textbf{a nurse is not assigned more than $m_t$ shifts of a type $t$}
     \end{itemize}
-  \item Objective: maximize the number of requested nurses for each shift of each day
+  \item Objective: minimize the number of nurses
 \end{itemize}
 
 
