@@ -30,10 +30,10 @@ class Instance:
             number_of_maximum_work_time_violations = 0
             total_profit = sum(
                     data["shifts"][day][shift] * self.profits[day][shift]
-                    for day, requests in enumerate(self.requests)
-                    for shift in range(2))
+                    for day, profits in enumerate(self.profits)
+                    for shift in range(3))
 
-            for day, requests in enumerate(self.requests):
+            for day, profits in enumerate(self.profits):
                 if (data["shifts"][day][0]
                         + data["shifts"][day][1]
                         + data["shifts"][day][1] > 1):
@@ -42,10 +42,9 @@ class Instance:
                         + data["shifts"][day][0] > 1):
                     number_of_shift_rotation_violations += 1
             work_time = sum(
-                    v
-                    for day, request in enumerate(self.requests)
-                    for shift in range(2)
-                    for v in data["shifts"][day][shift])
+                    data["shifts"][day][shift]
+                    for day, profits in enumerate(self.profits)
+                    for shift in range(3))
             if work_time > self.maximum_work_time:
                 number_of_maximum_work_time_violations += 1
 
