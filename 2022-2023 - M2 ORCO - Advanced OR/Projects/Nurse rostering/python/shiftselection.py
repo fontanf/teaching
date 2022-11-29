@@ -5,7 +5,6 @@ class Instance:
 
     def __init__(self, filepath=None):
         self.maximum_work_time = 1
-        self.maximum_number_of_shifts = [1, 1, 1]
         self.profits = []
         if filepath is not None:
             with open(filepath) as json_file:
