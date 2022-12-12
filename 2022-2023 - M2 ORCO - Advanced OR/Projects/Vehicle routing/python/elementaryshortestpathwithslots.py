@@ -67,7 +67,7 @@ class Instance:
             total_cost = 0
             current_time = -math.inf
             location_pred_id = 0
-            for location_id in data["locations"] + [0]:
+            for location_id in data["locations"]:
                 location = self.locations[location_id]
                 t = current_time + self.duration(location_pred_id, location_id)
                 try:
@@ -80,6 +80,7 @@ class Instance:
                     on_time = False
                 total_cost += self.cost(location_pred_id, location_id)
                 location_pred_id = location_id
+            total_cost += self.cost(location_pred_id, 0)
             number_of_duplicates = len(locations) - len(set(locations))
             is_feasible = (
                     (number_of_duplicates == 0)

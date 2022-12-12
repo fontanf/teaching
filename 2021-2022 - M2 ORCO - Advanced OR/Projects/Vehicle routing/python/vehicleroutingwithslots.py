@@ -57,7 +57,7 @@ class Instance:
             for locations in data["locations"]:
                 current_time = -math.inf
                 location_pred_id = 0
-                for location_id in locations + [0]:
+                for location_id in locations:
                     location = self.locations[location_id]
                     d = self.duration(location_pred_id, location_id)
                     total_travelled_distance += d
@@ -71,6 +71,7 @@ class Instance:
                     except ValueError:
                         on_time = False
                     location_pred_id = location_id
+                total_travelled_distance += self.duration(location_pred_id, 0)
             # Compute number_of_locations.
             number_of_duplicates = len(locations) - len(set(locations))
 
