@@ -1,0 +1,142 @@
+\documentclass[a4paper,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{interval}
+\usepackage{dirtytalk}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Nurse rostering}
+\date{2023--2024}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
+
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section*{Introduction}
+
+The nurse rostering problem is the problem of assigning nurses to shifts to create a roster satisfying some predetermined requirements.
+
+A day is composed of three types of work shifts: the early shift, the late shift and the night shift. For each shift of each day of the scheduling horizon, a number of nurses is requested. The goal is to find a schedule for each nurse such that these requirements and the other constraints are satisfied, while minimizing the number of nurses.
+
+\section{Dynamic Programming}
+
+We consider the following shift selection problem:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a profit $p_{j, t}$
+      \item a maximum work time $c$
+    \end{itemize}
+  \item Problem: find a set of shifts such that
+    \begin{itemize}
+      \item at most one shift is selected each day
+      \item the night shift of a day and the early shift of the next day are not both selected
+      \item at most $c$ shifts are selected
+    \end{itemize}
+  \item Objective: maximize the profit of the selected shifts
+\end{itemize}
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the following shift selection problem including the constraint \say{Maximum numbers of shifts of each type}:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a profit $p_{j, t}$
+      \item a maximum work time $c$
+      \item \textbf{for each shift type $t = 1, 2, 3$, a maximum number of shifts of this type $m_t$}
+    \end{itemize}
+  \item Problem: find a set of shifts such that
+    \begin{itemize}
+      \item at most one shift is selected each day
+      \item the night shift of a day and the early shift of the next day are not both selected
+      \item at most $c$ shifts are selected
+      \item \textbf{at most $m_t$ shifts of a type $t$ are selected}
+    \end{itemize}
+  \item Objective: maximize the profit of the selected shifts
+\end{itemize}
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation \\ + Dynamic Programming}
+
+We consider the following nurse rostering problem including the constraint:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a requested number of nurses $s_{j, t}$
+      \item a maximum work time $c$
+    \end{itemize}
+  \item Problem: for each nurse, find an assignment of shifts such that
+    \begin{itemize}
+      \item $s_{j, t}$ nurses are assigned to shift $t$ of day $j$
+      \item a nurse is assigned at most one shift each day
+      \item a nurse is not assigned the night shift of a day and the early shift of the next day
+      \item a nurse is not assigned more than $c$ shifts
+    \end{itemize}
+  \item Objective: minimize the number of nurses
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation \\ + Heuristic Tree Search}
+
+We consider the following nurse rostering problem including the constraint \say{Maximum numbers of shifts of each type that can be assigned to nurses}:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ days; for each day $j = 1, \dots, n$, for each shift type $t = 1, 2, 3$, a requested number of nurses $s_{j, t}$
+      \item a maximum work time $c$
+      \item \textbf{for each shift type $t = 1, 2, 3$, a maximum number of shifts of this type $m_t$}
+    \end{itemize}
+  \item Problem: for each nurse, find an assignment of shifts such that
+    \begin{itemize}
+      \item $s_{j, t}$ nurses are assigned to shift $t$ of day $j$
+      \item a nurse is assigned at most one shift each day
+      \item a nurse is not assigned the night shift of a day and the early shift of the next day
+      \item a nurse is not assigned more than $c$ shifts
+      \item \textbf{a nurse is not assigned more than $m_t$ shifts of a type $t$}
+    \end{itemize}
+  \item Objective: minimize the number of nurses
+\end{itemize}
+
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\end{document}

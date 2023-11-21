@@ -1,0 +1,92 @@
+\documentclass[a4paper,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{dirtytalk}
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{main.bib}
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryBibitem{\clearfield{day}}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Kidney exchange}
+\date{2023--2024}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
+
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section*{Introduction}
+
+Excerpts from~\cite{pansart_algorithms_2020}.
+
+\begin{quotation}
+  In a barter market, participants trade goods or services without using money or any other medium of exchange. Usually, barter takes place locally, immediately, between two people and without a state organization. One barter market though is an exception: kidney exchanges are organized by countries’ institutions themselves and can involve many people. Organs cannot be sold, and actually cannot be exchanged either: in a kidney exchange program, the traded \say{items} are the donors, not the kidneys. Agents of the market are patients waiting for a kidney transplant because of a renal disease. Each patient has a relative ready to donate one kidney, but incompatible. In addition, new items can be injected in the market thanks to altruistic donors. The role of kidney exchange programs is to find out which exchanges should be carried out, in order to maximize the \say{common good} while respecting medical, ethical, legal and logistical constraints.
+
+  We consider a kidney exchange program with $n$ participants (patient-donor pairs and altruistic donors) for whom a priori compatibilities are known. We also assume that for each transplant a certain level of \say{desirability} is provided, possibly aggregating several medical parameters from both the donor and the recipient, and that the objective of the problem is to maximize the total benefit of the chosen transplants. Note that a special case of this problem with unitary weight in fact maximizes the number of transplants. In general maximizing the weight of exchanges can be conflicting with maximizing the number of transplants. Exchanges include cycles of donation of length at most $K$ and chains of donation containing at most $L - 1$ patient-donor pairs (hence $L$ agents).
+
+  We model a kidney exchange program as a directed graph by creating one vertex for each participant and one arc for each possible transplant. Formally, the set $P$ contains one vertex for each patient-donor pairs and the set $N$ one vertex for each altruistic donor. To construct the compatibility graph $D = (V = P \cup N, A)$, we add an arc $(u, v)$ between $u \in V$ and $v \in P$ if the kidney of donor $u$ can be transplanted to patient $v$. A weight function $w: A \to \R^+$ represents the medical benefit of each possible transplant. Note that determining the weight function is an upstream work and that $w$ is an input in our case. This graph is generally quite sparse as it is rare for a patient and a donor to be compatible.
+\end{quotation}
+
+\section{Dynamic Programming}
+
+We first consider the problem of finding a valid elementary cycle of length at most $K$ and of negative weight. In this problem, the weight of an arc might by negative.
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the problem of finding a valid elementary path of length at most $L$ and of minimum weight. In this problem, the weight of an arc might by negative.
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation \texorpdfstring{\\}{}  + Dynamic Programming}
+
+We consider the kidney exchange problem with only patient-donor pairs and \emph{without} altruistic donors. Therefore, the exchanges can only be elementary cycles, and not elementary paths.
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation \texorpdfstring{\\}{} + Heuristic Tree Search}
+
+We consider the kidney exchange problem with both patient-donor pairs and altruistic donors. Therefore, the exchanges can be elementary cycles or elementary paths.
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\printbibliography%
+
+\end{document}

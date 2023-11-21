@@ -1,0 +1,142 @@
+\documentclass[a4paper,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{interval}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Vehicle routing}
+\date{2023--2024}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
+
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section{Dynamic Programming}
+
+We consider the Elementary shortest path problem with resource constraint and a single slot:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $1$ depot
+      \item $n - 1$ customers; for each customer $j = 2, \dots, n$, a visit interval $\interval[open right]{s_j}{e_j}$, $s_j \in \N_+$, $e_j \in \N_+$, $s_j < e_j$
+      \item an $n \times n$ symmetric matrix $t$ specifying the times in $\R_+$ to travel between each pair of locations
+      \item an $n \times n$ matrix $c$ specifying the costs in $\R$ to travel between each pair of locations
+    \end{itemize}
+  \item Problem: find a sub-tour starting and ending at the depot such that
+    \begin{itemize}
+      \item each customer is visited at most once
+      \item the arrival at a customer $j$ is before $s_j$
+      \item the departure from a customer is at $e_j$ (even if the arrival was before $s_j$)
+    \end{itemize}
+  \item Objective: minimize the cost of the sub-tour
+\end{itemize}
+
+Note that the costs might be negative.
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the Elementary shortest path problem with resource constraint and two slots:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $1$ depot
+      \item $n - 1$ customers; for each customer $j = 2, \dots, n$, two visit intervals (which might overlap)
+        \begin{itemize}
+          \item $\interval[open right]{s_j^1}{e_j^1}$, $s_j^1 \in \N_+$, $e_j^1 \in \N_+$, $s_j^1 < e_j^2$
+          \item $\interval[open right]{s_j^2}{e_j^2}$, $s_j^2 \in \N_+$, $e_j^2 \in \N_+$, $s_j^2 < e_j^2$
+        \end{itemize}
+      \item an $n \times n$ symmetric matrix $t$ specifying the times in $\R_+$ to travel between each pair of locations
+      \item an $n \times n$ matrix $c$ specifying the costs in $\R$ to travel between each pair of locations
+    \end{itemize}
+  \item Problem: find a sub-tour starting and ending at the depot such that
+    \begin{itemize}
+      \item each customer is visited at most once
+      \item the arrival and the departure from a customer include one of its two visit intervals
+    \end{itemize}
+  \item Objective: minimize the cost of the sub-tour
+\end{itemize}
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation \\ + Dynamic Programming}
+
+We consider the Vehicle routing problem with a single slot:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $1$ depot
+      \item $n - 1$ customers; for each customer $j = 2, \dots, n$, a visit interval $\interval[open right]{s_j}{e_j}$, $s_j \in \N_+$, $e_j \in \N_+$, $s_j < e_j$
+      \item an $n \times n$ symmetric matrix $t$ specifying the times in $\R_+$ to travel between each pair of locations
+    \end{itemize}
+  \item Problem: find a set of routes starting and ending at the depot such that
+    \begin{itemize}
+      \item each customer is visited exactly once
+      \item the arrival at a customer $j$ is before $s_j$
+      \item the departure from a customer is at $e_j$ (even if the arrival was before $s_j$)
+    \end{itemize}
+  \item Objective: minimize the total traveled distance
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation \\ + Heuristic Tree Search}
+
+We consider the Vehicle routing problem with two slots:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $1$ depot
+      \item $n - 1$ customers; for each customer $j = 2, \dots, n$, two visit intervals (which might overlap)
+        \begin{itemize}
+          \item $\interval[open right]{s_j^1}{e_j^1}$, $s_j^1 \in \N_+$, $e_j^1 \in \N_+$, $s_j^1 < e_j^2$
+          \item $\interval[open right]{s_j^2}{e_j^2}$, $s_j^2 \in \N_+$, $e_j^2 \in \N_+$, $s_j^2 < e_j^2$
+        \end{itemize}
+      \item an $n \times n$ symmetric matrix $t$ specifying the times in $\R_+$ to travel between each pair of locations
+    \end{itemize}
+  \item Problem: find a set of routes starting and ending at the depot such that
+    \begin{itemize}
+      \item each customer is visited exactly once
+      \item the arrival and the departure from a customer include one of its two visit intervals
+    \end{itemize}
+  \item Objective: minimize the total traveled distance
+\end{itemize}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\end{document}

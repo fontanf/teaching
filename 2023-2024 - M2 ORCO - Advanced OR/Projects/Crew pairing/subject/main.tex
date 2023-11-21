@@ -1,0 +1,134 @@
+\documentclass[a4paper,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{dirtytalk}
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{main.bib}
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryBibitem{\clearfield{day}}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+
+\author{Florian Fontan}
+\title{Advanced Models and Methods in Operations Research \\ Project: Crew pairing}
+\date{2023--2024}
+
+\begin{document}
+
+\maketitle
+
+For each problem considered, instances and a code skeleton containing an instance parser and a solution checker are provided in the \texttt{data/} and \texttt{python/} folders of the project.
+
+The algorithms must be implemented in the provided files between the tags \texttt{TODO START} and \texttt{TODO END}.
+
+They must be tested on all the provided instances with the command:
+\texttt{python3 problem.py -i instance.json -c certificate.json}
+
+And each solution file must be validated by the provided checker:
+\texttt{python3 problem.py -a checker -i instance.json -c certificate.json}
+
+The results must be reproducible.
+
+\bigskip
+
+The delivrable must contain:
+\begin{itemize}
+  \item A \emph{short} report describing and justifying the proposed algorithms
+  \item The code implementing the algorithms
+  \item The solution files obtained on the provided instances
+\end{itemize}
+
+\section*{Introduction}
+
+Excerpts from~\cite{saddoune_aircrew_2013}.
+
+\begin{quotation}
+  A crew pairing is a sequence of flights, connections and rests that starts and ends at a crew base and is assigned to a single crew. The crew pairing problem consists of determining a minimum cost set of feasible crew pairings such that each flight is covered exactly once and side constraints are satisfied.
+\end{quotation}
+
+\section{Dynamic Programming}
+
+We consider the following crew pairing problem:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ flights; for each flight $j = 1, \dots, n$
+        \begin{itemize}
+          \item a profit $p_j$
+          \item a cost $c^s_j$ of going from the base of the crew to this flight
+          \item a cost $c^e_j$ of going from this flight to the base
+        \end{itemize}
+      \item For each pair of flights $j_1, j_2 = 1, \dots, n$, $j_1 \neq j_2$, a cost $c_{j_1, j_2}$ of going from the arrival of the first one to the departure of the second one. This might not be possible for all pairs of flights.
+      \item A maximum number of flights in the pairing $f^\text{max}$
+    \end{itemize}
+  \item Problem: find a crew pairing, \textit{i.e.}\ a list of consecutive flights such that
+    \begin{itemize}
+      \item The crew pairing starts and ends at the base
+      \item The crew pairing contains at most $f^\text{max}$ flights
+    \end{itemize}
+  \item Objective: maximize the profit of the crew pairing
+\end{itemize}
+
+Propose and implement an algorithm based on Dynamic Programming for this problem.
+
+\section{Heuristic Tree Search}
+
+We consider the following crew pairing problem:
+\begin{itemize}
+  \item Input:
+    \begin{itemize}
+      \item $n$ flights; for each flight $j = 1, \dots, n$
+        \begin{itemize}
+          \item a profit $p_j$
+          \item a cost $c^s_j$ of going from the base of the crew to this flight
+          \item a cost $c^e_j$ of going from this flight to the base
+          \item a duration $t^s_j$ of going from the base of the crew to this flight
+          \item a duration $t^e_j$ of going from this flight to the base
+          \item a starting time $s_j$
+          \item an arrival time $e_j$
+        \end{itemize}
+      \item For each pair of flights $j_1, j_2 = 1, \dots, n$, $j_1 \neq j_2$
+        \begin{itemize}
+          \item a cost $c_{j_1, j_2}$ of going from the arrival of the first one to the departure of the second one. This might not be possible for all pairs of flights.
+          \item a duration $t_{j_1, j_2}$ of going from the arrival of the first one to the departure of the second one. This might not be possible for all pairs of flights.
+        \end{itemize}
+      \item A maximum number of flights in the pairing $f^\text{max}$
+      \item A maximum duration of a pairing $t^{t, \text{max}}$
+      \item A maximum flying time in the pairing $t^\text{max}$
+    \end{itemize}
+  \item Problem: find a crew pairing, \textit{i.e.}\ a list of consecutive flights such that
+    \begin{itemize}
+      \item The crew pairing starts and ends at the base
+      \item The crew pairing contains at most $f^\text{max}$ flights
+      \item The maximum flying time is lesser than $t^{f, \text{max}}$
+      \item The duration of the pairing is lesser than $t^{\text{max}}$
+    \end{itemize}
+  \item Objective: maximize the profit of the crew pairing
+\end{itemize}
+
+Propose and implement an algorithm based on Heuristic Tree Search with Dynamic Programming for this problem.
+
+\section{Column Generation \texorpdfstring{\\}{}  + Dynamic Programming}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\section{Column Generation \texorpdfstring{\\}{} + Heuristic Tree Search}
+
+Propose an exponential formulation and implement an algorithm based on a Column Generation heuristic for this problem.
+
+\printbibliography%
+
+\end{document}

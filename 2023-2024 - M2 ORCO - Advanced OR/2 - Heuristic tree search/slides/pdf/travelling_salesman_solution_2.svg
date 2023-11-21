@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg:svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100%"
+   height="100%"
+   version="1.0"
+   id="svg144"
+   sodipodi:docname="travelling_salesman_solution_2.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <svg:metadata
+     id="metadata150">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title> | https://upload.wikimedia.org/</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </svg:metadata>
+  <svg:defs
+     id="defs148" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     id="namedview146"
+     showgrid="false"
+     inkscape:zoom="1.3037281"
+     inkscape:cx="118.97587"
+     inkscape:cy="-248.30035"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg144" />
+  <svg:title
+     id="title2"> | https://upload.wikimedia.org/</svg:title>
+  <link
+     type="text/css"
+     rel="stylesheet"
+     id="dark-mode-custom-link" />
+  <link
+     type="text/css"
+     rel="stylesheet"
+     id="dark-mode-general-link" />
+  <style
+     lang="en"
+     type="text/css"
+     id="dark-mode-custom-style" />
+  <style
+     lang="en"
+     type="text/css"
+     id="dark-mode-native-style" />
+  <svg:circle
+     cx="14.843435"
+     cy="64.155902"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle4" />
+  <svg:circle
+     cx="276.895963"
+     cy="4.798338"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle6" />
+  <svg:circle
+     cx="127.779724"
+     cy="409.131953"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle8" />
+  <svg:circle
+     cx="205.897745"
+     cy="206.113209"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle10" />
+  <svg:circle
+     cx="450.317844"
+     cy="463.120257"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle12" />
+  <svg:circle
+     cx="269.845155"
+     cy="146.064847"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle14" />
+  <svg:circle
+     cx="144.357250"
+     cy="48.303781"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle16" />
+  <svg:circle
+     cx="481.429614"
+     cy="125.520198"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle18" />
+  <svg:circle
+     cx="12.596210"
+     cy="241.080940"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle20" />
+  <svg:circle
+     cx="324.583947"
+     cy="356.489695"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle22" />
+  <svg:circle
+     cx="268.760392"
+     cy="196.065698"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle24" />
+  <svg:circle
+     cx="396.925564"
+     cy="171.485993"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle26" />
+  <svg:circle
+     cx="70.148814"
+     cy="102.961104"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle28" />
+  <svg:circle
+     cx="92.067259"
+     cy="420.967975"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle30" />
+  <svg:circle
+     cx="173.391911"
+     cy="104.672534"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle32" />
+  <svg:circle
+     cx="42.057297"
+     cy="414.010460"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle34" />
+  <svg:circle
+     cx="216.875209"
+     cy="260.844929"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle36" />
+  <svg:circle
+     cx="270.270021"
+     cy="177.836912"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle38" />
+  <svg:circle
+     cx="469.339253"
+     cy="336.190592"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle40" />
+  <svg:circle
+     cx="405.818279"
+     cy="228.169920"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle42" />
+  <svg:circle
+     cx="247.803323"
+     cy="457.268561"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle44" />
+  <svg:circle
+     cx="23.555850"
+     cy="95.458963"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle46" />
+  <svg:circle
+     cx="499.454448"
+     cy="196.360554"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle48" />
+  <svg:circle
+     cx="228.542659"
+     cy="123.293380"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle50" />
+  <svg:circle
+     cx="262.303273"
+     cy="421.230876"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle52" />
+  <svg:circle
+     cx="108.504974"
+     cy="460.106655"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle54" />
+  <svg:circle
+     cx="499.726018"
+     cy="282.106906"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle56" />
+  <svg:circle
+     cx="369.829464"
+     cy="394.798983"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle58" />
+  <svg:circle
+     cx="229.398167"
+     cy="340.463102"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle60" />
+  <svg:circle
+     cx="317.805933"
+     cy="97.267981"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle62" />
+  <svg:circle
+     cx="96.365578"
+     cy="282.627837"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle64" />
+  <svg:circle
+     cx="207.073666"
+     cy="227.996349"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle66" />
+  <svg:circle
+     cx="245.123898"
+     cy="248.286070"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle68" />
+  <svg:circle
+     cx="339.892912"
+     cy="408.707086"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle70" />
+  <svg:circle
+     cx="103.248022"
+     cy="381.131207"
+     r="5"
+     stroke="black"
+     stroke-width="2"
+     fill="red"
+     id="circle72" />
+  <svg:line
+     x1="70.148811"
+     y1="102.96111"
+     x2="23.555849"
+     y2="95.458961"
+     style="stroke:#000000;stroke-width:1.99999988"
+     id="line74" />
+  <svg:line
+     x1="70.148814"
+     y1="102.961104"
+     x2="144.357250"
+     y2="48.303781"
+     style="stroke:black;stroke-width:2"
+     id="line76" />
+  <svg:line
+     x1="92.067259"
+     y1="420.967975"
+     x2="127.779724"
+     y2="409.131953"
+     style="stroke:black;stroke-width:2"
+     id="line78" />
+  <svg:line
+     x1="173.391911"
+     y1="104.672534"
+     x2="205.897745"
+     y2="206.113209"
+     style="stroke:black;stroke-width:2"
+     id="line80" />
+  <svg:line
+     x1="173.391911"
+     y1="104.672534"
+     x2="144.357250"
+     y2="48.303781"
+     style="stroke:black;stroke-width:2"
+     id="line82" />
+  <svg:line
+     x1="42.057297"
+     y1="414.010460"
+     x2="92.067259"
+     y2="420.967975"
+     style="stroke:black;stroke-width:2"
+     id="line84" />
+  <svg:line
+     x1="270.270021"
+     y1="177.836912"
+     x2="269.845155"
+     y2="146.064847"
+     style="stroke:black;stroke-width:2"
+     id="line86" />
+  <svg:line
+     x1="270.270021"
+     y1="177.836912"
+     x2="268.760392"
+     y2="196.065698"
+     style="stroke:black;stroke-width:2"
+     id="line88" />
+  <svg:line
+     x1="405.818279"
+     y1="228.169920"
+     x2="481.429614"
+     y2="125.520198"
+     style="stroke:black;stroke-width:2"
+     id="line92" />
+  <svg:line
+     x1="405.818279"
+     y1="228.169920"
+     x2="396.925564"
+     y2="171.485993"
+     style="stroke:black;stroke-width:2"
+     id="line94" />
+  <svg:line
+     x1="23.555850"
+     y1="95.458963"
+     x2="12.596210"
+     y2="241.080940"
+     style="stroke:black;stroke-width:2"
+     id="line98" />
+  <svg:line
+     x1="499.454448"
+     y1="196.360554"
+     x2="481.429614"
+     y2="125.520198"
+     style="stroke:black;stroke-width:2"
+     id="line100" />
+  <svg:line
+     x1="228.542659"
+     y1="123.293380"
+     x2="276.895963"
+     y2="4.798338"
+     style="stroke:black;stroke-width:2"
+     id="line102" />
+  <svg:line
+     x1="228.542659"
+     y1="123.293380"
+     x2="269.845155"
+     y2="146.064847"
+     style="stroke:black;stroke-width:2"
+     id="line104" />
+  <svg:line
+     x1="499.726018"
+     y1="282.106906"
+     x2="469.339253"
+     y2="336.190592"
+     style="stroke:black;stroke-width:2"
+     id="line112" />
+  <svg:line
+     x1="499.726018"
+     y1="282.106906"
+     x2="499.454448"
+     y2="196.360554"
+     style="stroke:black;stroke-width:2"
+     id="line114" />
+  <svg:line
+     x1="317.805933"
+     y1="97.267981"
+     x2="276.895963"
+     y2="4.798338"
+     style="stroke:black;stroke-width:2"
+     id="line122" />
+  <svg:line
+     x1="317.805933"
+     y1="97.267981"
+     x2="396.925564"
+     y2="171.485993"
+     style="stroke:black;stroke-width:2"
+     id="line124" />
+  <svg:line
+     x1="96.365578"
+     y1="282.627837"
+     x2="12.596210"
+     y2="241.080940"
+     style="stroke:black;stroke-width:2"
+     id="line126" />
+  <svg:line
+     x1="207.073666"
+     y1="227.996349"
+     x2="205.897745"
+     y2="206.113209"
+     style="stroke:black;stroke-width:2"
+     id="line128" />
+  <svg:line
+     x1="207.073666"
+     y1="227.996349"
+     x2="216.875209"
+     y2="260.844929"
+     style="stroke:black;stroke-width:2"
+     id="line130" />
+  <svg:line
+     x1="245.123898"
+     y1="248.286070"
+     x2="268.760392"
+     y2="196.065698"
+     style="stroke:black;stroke-width:2"
+     id="line132" />
+  <svg:line
+     x1="245.123898"
+     y1="248.286070"
+     x2="216.875209"
+     y2="260.844929"
+     style="stroke:black;stroke-width:2"
+     id="line134" />
+  <svg:line
+     x1="103.248022"
+     y1="381.131207"
+     x2="127.779724"
+     y2="409.131953"
+     style="stroke:black;stroke-width:2"
+     id="line140" />
+  <svg:line
+     x1="103.248022"
+     y1="381.131207"
+     x2="96.365578"
+     y2="282.627837"
+     style="stroke:black;stroke-width:2"
+     id="line142" />
+</svg:svg>

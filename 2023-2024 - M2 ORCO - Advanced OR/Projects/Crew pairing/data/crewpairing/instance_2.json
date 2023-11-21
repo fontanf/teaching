@@ -1,0 +1,1 @@
+{"maximum_number_of_flights": 5, "maximum_flying_time": 244, "maximum_duration": 343, "flight_profits": [0, 862], "flight_departure_times": [Infinity, 773], "flight_arrival_times": [0, 795], "edge_heads": [0, 0, 1, 2], "edge_tails": [1, 2, 0, 0], "edge_costs": [48, 29, 14, 40], "edge_durations": [100, 28, 22, 52]}
