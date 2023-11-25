@@ -878,11 +878,11 @@
   \begin{algorithmic}
     \Procedure{BreadthFirstSearch}{w, C}
     \State$L_0 \gets ((0, 0, 0))$
-    \For {$j = 1, \dots, n$}
-    \For {$(j, w, p) \in L_{j - 1}$}
-    \State {$L_j \gets L_j \cup ((j, w, p)) $}
-    \If {$w + w[j] \le C$}
-    \State {$L_j \gets L_j \cup ((j, w + w_j, p + p_j)) $}
+    \For {$k = 1, \dots, n$}
+    \For {$(j, w, p) \in L_{k - 1}$}
+    \State {$L_k \gets L_k \cup ((j + 1, w, p)) $}
+    \If {$w + w_{j + 1} \le C$}
+    \State {$L_k \gets L_k \cup ((j + 1, w + w_{j + 1}, p + p_{j + 1})) $}
     \EndIf
     \EndFor
     \EndFor
@@ -1055,11 +1055,11 @@
   \begin{algorithmic}
     \Procedure{BreadthFirstSearch}{w, C}
     \State $L_0 \gets ((0, 0, 0))$
-    \For {$j = 1, \dots, n$}
-    \For {$(j, w, p) \in L_{j - 1}$}
-    \State $L_j \gets L_j \cup ((j, w, p)) $
-    \If {$w + w[j] \le C$}
-    \State $L_j \gets L_j \cup ((j, w + w_j, p + p_j))$
+    \For {$k = 1, \dots, n$}
+    \For {$(j, w, p) \in L_{k - 1}$}
+    \State $L_k \gets L_k \cup ((j + 1, w, p)) $
+    \If {$w + w_{j + 1} \le C$}
+    \State $L_k \gets L_k \cup ((j + 1, w + w_{j + 1}, p + p_{j + 1}))$
     \EndIf
     \EndFor
     \State \alert{Remove all dominated nodes from $L_j$}
